@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    /* このファイルの詳細については、https://aka.ms/tsconfig をご覧ください */
+    "target": "esnext",
+    "module": "esnext",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true
+  }
+}

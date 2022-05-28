@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.base.json",
+
+  "compilerOptions": {
+    /* このファイルの詳細については、https://aka.ms/tsconfig をご覧ください */
+    "rootDir": "./src",
+    "declaration": true,
+    "outDir": "./dist",
+    "noEmit": false
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "@frostleaf/types",
+  "version": "0.1.0",
+  "types": "index.d.ts",
+  "devDependencies": {
+    "typescript": "4.7.2"
+  }
+}

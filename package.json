@@ -1,0 +1,7 @@
+{
+  "engines": {
+    "npm": "forbidden, use pnpm",
+    "pnpm": ">=7",
+    "yarn": "forbidden, use pnpm"
+  }
+}

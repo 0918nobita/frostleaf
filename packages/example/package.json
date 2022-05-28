@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "@frostleaf/example",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@frostleaf/jsx-runtime": "workspace:../jsx-runtime",
+    "@frostleaf/types": "workspace:../types",
+    "typescript": "4.7.2"
+  }
+}
