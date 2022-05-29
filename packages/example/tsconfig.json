@@ -3,12 +3,8 @@
 
   "compilerOptions": {
     /* このファイルの詳細については、https://aka.ms/tsconfig をご覧ください */
-    "jsx": "react-jsx",
-    "jsxImportSource": "@frostleaf",
     "rootDir": "./src",
     "moduleResolution": "node",
-    "outDir": "./dist",
-    "noEmit": false,
-    "types": ["@frostleaf/types"]
+    "outDir": "./dist"
   }
 }
