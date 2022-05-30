@@ -3,7 +3,8 @@
   "name": "@frostleaf/example",
   "version": "0.1.0",
   "scripts": {
-    "format": "rome format ."
+    "main": "ts-eager ./src/main.ts",
+    "format": "prettier --write ./src/main.ts"
   },
   "devDependencies": {
     "prettier": "2.6.2",
