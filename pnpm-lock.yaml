@@ -2,7 +2,24 @@ lockfileVersion: 5.4
 
 importers:
 
+  .:
+    specifiers: {}
+
   packages/example:
+    specifiers:
+      '@frostleaf/framework': workspace:../framework
+      '@types/node': 17.0.36
+      prettier: 2.6.2
+      ts-eager: 2.0.2
+      typescript: 4.7.2
+    devDependencies:
+      '@frostleaf/framework': link:../framework
+      '@types/node': 17.0.36
+      prettier: 2.6.2
+      ts-eager: 2.0.2
+      typescript: 4.7.2
+
+  packages/framework:
     specifiers:
       prettier: 2.6.2
       ts-eager: 2.0.2
@@ -13,6 +30,10 @@ importers:
       typescript: 4.7.2
 
 packages:
+
+  /@types/node/17.0.36:
+    resolution: {integrity: sha512-V3orv+ggDsWVHP99K3JlwtH20R7J4IhI1Kksgc+64q5VxgfRkQG8Ws3MFm/FZOKDYGy9feGFlZ70/HpCNe9QaA==}
+    dev: true
 
   /buffer-from/1.1.2:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}

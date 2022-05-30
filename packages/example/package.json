@@ -3,10 +3,13 @@
   "name": "@frostleaf/example",
   "version": "0.1.0",
   "scripts": {
-    "main": "ts-eager ./src/main.ts",
-    "format": "prettier --write ./src/main.ts"
+    "check": "tsc",
+    "build": "ts-eager ./build.ts",
+    "format": "prettier --write ./components ./pages ./build.ts"
   },
   "devDependencies": {
+    "@frostleaf/framework": "workspace:../framework",
+    "@types/node": "17.0.36",
     "prettier": "2.6.2",
     "ts-eager": "2.0.2",
     "typescript": "4.7.2"

@@ -2,15 +2,39 @@
 
 https://zenn.dev/0918nobita/scraps/64a268583b8463
 
+## Development
+
+### Requirements
+
+- asdf
+
+### Install tools
+
 ```bash
-# Install tools listed in .tool-versions
 # For details see https://asdf-vm.com/
-$ asdf install
+asdf install
+```
 
-# Install dependencies (npm packages)
+### Install dependencies
+
+```bash
 $ pnpm i
+```
 
-$ cd packages/example
-$ pnpm run main
-...
+### Type checking
+
+```bash
+pnpm run check
+```
+
+### Build
+
+```bash
+pnpm run build
+```
+
+### Format code
+
+```bash
+pnpm run format
 ```
