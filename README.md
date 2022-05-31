@@ -4,10 +4,6 @@ https://zenn.dev/0918nobita/scraps/64a268583b8463
 
 ## Development
 
-### Requirements
-
-- asdf
-
 ### Install tools
 
 ```bash
@@ -24,17 +20,23 @@ $ pnpm i
 ### Type checking
 
 ```bash
-pnpm run check
+pnpm check
 ```
 
 ### Build
 
 ```bash
-pnpm run build
+pnpm build
 ```
 
 ### Format code
 
 ```bash
-pnpm run format
+pnpm format
+```
+
+### Run
+
+```bash
+pnpm main
 ```

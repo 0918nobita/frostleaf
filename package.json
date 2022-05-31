@@ -2,7 +2,8 @@
   "scripts": {
     "check": "pnpm --filter @frostleaf/* run check",
     "build": "pnpm --filter @frostleaf/* run build",
-    "format": "pnpm --filter @frostleaf/* run format"
+    "format": "pnpm --filter @frostleaf/* run format",
+    "main": "pnpm --filter @frostleaf/cli run main"
   },
   "engines": {
     "npm": "forbidden, use pnpm",
