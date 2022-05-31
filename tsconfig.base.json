@@ -2,7 +2,7 @@
   "compilerOptions": {
     /* このファイルの詳細については、https://aka.ms/tsconfig をご覧ください */
     "target": "esnext",
-    "module": "commonjs",
+    "module": "esnext",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
