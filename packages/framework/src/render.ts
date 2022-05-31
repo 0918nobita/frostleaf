@@ -1,4 +1,10 @@
-import { ComponentElement, Element, FHtmlElement } from "./types";
+import { Fragment } from "./fragment";
+import {
+    ComponentElement,
+    Element,
+    FHtmlElement,
+    FragmentElement,
+} from "./types";
 
 const voidElements: readonly string[] = [
     "area",
@@ -57,11 +63,18 @@ const renderComponentElement = async (
     return await render(content);
 };
 
+const renderFragmentElement = async (fragment: FragmentElement) => {
+    const { children } = fragment;
+    return (await Promise.all(children.map(render))).join("");
+};
+
 export const render = async (element: Element<any>): Promise<string> => {
     if (typeof element === "string") return element;
 
     if (element.type === "html-element")
         return await renderHtmlElement(element);
+
+    if (element.type === Fragment) return await renderFragmentElement(element);
 
     return await renderComponentElement(element);
 };

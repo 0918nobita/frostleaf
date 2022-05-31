@@ -1,3 +1,5 @@
+import { Fragment } from "./fragment";
+
 export type PropsWithChildren<Props> = Props & { children: Element<any> };
 
 /** 同期的にレンダリングされるコンポーネント */
@@ -50,4 +52,13 @@ export type FHtmlElement = {
     children: Element<any>[];
 };
 
-export type Element<Props> = string | FHtmlElement | ComponentElement<Props>;
+export type FragmentElement = {
+    type: typeof Fragment;
+    children: Element<any>[];
+};
+
+export type Element<Props> =
+    | string
+    | FHtmlElement
+    | ComponentElement<Props>
+    | FragmentElement;
