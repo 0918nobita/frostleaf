@@ -1,10 +1,11 @@
 import path from "path";
 
-import { h, StaticComponent } from "@frostleaf/framework";
+import { h, SyncComponent } from "@frostleaf/framework";
 
-const hello: StaticComponent = {
-    markup: h("p", {}, []),
-    script: path.join(path.dirname(__dirname), "runtime.ts"),
+const hello: SyncComponent = {
+    type: "sync-component",
+    resolveContent: (_props) => h("p", {}, []),
+    runtimeScript: path.join(__dirname, "runtime.ts"),
 };
 
 export default hello;

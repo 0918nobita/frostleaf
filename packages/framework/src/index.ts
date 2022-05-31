@@ -1,32 +1,60 @@
-export type Attrs = Record<string, string>;
-
-export type Markup =
-    | string
-    | {
-          tag: string;
-          attrs: Attrs;
-          children: Markup[];
-      };
-
-/** 状態遷移しないコンポーネント */
-export type StaticComponent = { markup: Markup; script?: string };
-
-/**
- * 副作用を含むコンポーネント
- *
- * ページ生成時に必要なデータを引数で受け取り、静的コンポーネントを非同期で返す
- */
-export type ComponentWithEffect<Props> = {
-    markupFn: (props: Props) => Promise<Markup>;
-    script?: string;
+export type SyncComponent<Props = {}> = {
+    type: "sync-component";
+    resolveContent: (props: Props) => Element<any>;
+    runtimeScript?: string;
 };
 
-export const h = (tag: string, attrs: Attrs, children: Markup[]): Markup => ({
-    tag,
-    attrs,
-    children,
-});
+export type AsyncComponent<Props = {}> = {
+    type: "async-component";
+    resolveContent: (props: Props) => Promise<Element<any>>;
+    runtimeScript?: string;
+};
 
+type Component<Props> = SyncComponent<Props> | AsyncComponent<Props>;
+
+type ComponentElement<Props> = {
+    type: "component-element";
+    component: Component<Props>;
+};
+
+type FHtmlElement = {
+    type: "html-element";
+    tag: string;
+    attrs: Record<string, string>;
+    children: Element<any>[];
+};
+
+type Element<Props> = string | FHtmlElement | ComponentElement<Props>;
+
+export const h = <Props extends Record<string, unknown>>(
+    tagOrComponent: string | Component<Props>,
+    props: Props,
+    children: Element<any>[]
+): Element<Props> => {
+    if (typeof tagOrComponent === "string") {
+        const attrs: Record<string, string> = {};
+        for (const [key, value] of Object.entries(props)) {
+            if (typeof value !== "string") {
+                throw new Error(`Invalid attribute value for ${key}: ${value}`);
+            }
+            attrs[key] = value;
+        }
+
+        return {
+            type: "html-element",
+            tag: tagOrComponent,
+            attrs,
+            children,
+        };
+    }
+
+    return {
+        type: "component-element",
+        component: tagOrComponent,
+    };
+};
+
+/*
 const voidElements: readonly string[] = [
     "area",
     "base",
@@ -46,26 +74,36 @@ const voidElements: readonly string[] = [
     "wbr",
 ];
 
-const renderMarkup = (markup: Markup): string => {
-    if (typeof markup === "string") return markup;
+export const renderVNode = (vnode: VNode): string => {
+    if (vnode.type === "vnode-text") return vnode.val;
 
-    const { tag, attrs, children } = markup;
+    if (vnode.type === "vnode-tag") {
+        const { tag, attrs, children } = vnode;
 
-    const attrFragments = Object.keys(attrs).map(
-        (key) => `${key}="${attrs[key]}"`
-    );
-    const renderedAttrs =
-        attrFragments.length != 0 ? ` ${attrFragments.join(" ")}` : "";
+        const attrFragments = Object.keys(attrs).map(
+            (key) => `${key}="${attrs[key]}"`
+        );
+        const renderedAttrs =
+            attrFragments.length != 0 ? ` ${attrFragments.join(" ")}` : "";
 
-    if (voidElements.includes(tag)) {
-        if (children.length != 0)
-            throw new Error("Children of void element must be empty");
-        return `<${tag}${renderedAttrs}>`;
+        if (voidElements.includes(tag)) {
+            if (children.length != 0)
+                throw new Error("Children of void element must be empty");
+            return `<${tag}${renderedAttrs}>`;
+        }
+
+        const renderedChildren = (
+            children.length != 0 ? children.map(renderVNode) : []
+        ).join("");
+
+        return `<${tag}${renderedAttrs}>${renderedChildren}</${tag}>`;
     }
 
-    const renderedChildren = (
-        children.length != 0 ? children.map(renderMarkup) : []
-    ).join("");
+    if (vnode.type === "vnode-static-component") {
+        const { vNode } = vnode.component;
+        return renderVNode({ type: "vnode-tag", ...vNode });
+    }
 
-    return `<${tag}${renderedAttrs}>${renderedChildren}</${tag}>`;
+    throw new Error("Not implemented");
 };
+*/

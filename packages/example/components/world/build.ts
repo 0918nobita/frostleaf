@@ -1,12 +1,17 @@
 import path from "path";
 
-import { h, ComponentWithEffect } from "@frostleaf/framework";
+import { h, AsyncComponent } from "@frostleaf/framework";
 
-const world: ComponentWithEffect<string> = {
-    markupFn: async (content: string) => {
-        return h("p", {}, [`${content}!`]);
+type Props = {
+    name: String;
+};
+
+const world: AsyncComponent<Props> = {
+    type: "async-component",
+    resolveContent: async ({ name }) => {
+        return h("p", {}, [`${name}!`]);
     },
-    script: path.join(path.dirname(__dirname), "runtime.ts"),
+    runtimeScript: path.join(__dirname, "runtime.ts"),
 };
 
 export default world;
