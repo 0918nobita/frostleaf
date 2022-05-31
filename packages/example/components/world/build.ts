@@ -1,5 +1,3 @@
-import path from "path";
-
 import Frostleaf, { h } from "@frostleaf/framework";
 
 type Props = {
@@ -8,4 +6,4 @@ type Props = {
 
 export const World = Frostleaf.voidAsync<Props>(async ({ name }) => {
     return h("p", {}, [`${name}!`]);
-}, path.join(__dirname, "build.ts"));
+});

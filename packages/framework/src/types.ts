@@ -6,28 +6,24 @@ export type PropsWithChildren<Props> = Props & { children: Element<any> };
 export type SyncComponent<Props = {}> = {
     type: "sync-component";
     resolveContent: (props: PropsWithChildren<Props>) => Element<any>;
-    runtimeScript?: string;
 };
 
 /** 同期的にレンダリングされる、子要素を受け取らないコンポーネント */
 export type VoidSyncComponent<Props = {}> = {
     type: "sync-component";
     resolveContent: (props: Props) => Element<any>;
-    runtimeScript?: string;
 };
 
 /** 非同期的にレンダリングされるコンポーネント */
 export type AsyncComponent<Props = {}> = {
     type: "async-component";
     resolveContent: (props: PropsWithChildren<Props>) => Promise<Element<any>>;
-    runtimeScript?: string;
 };
 
 /** 非同期的にレンダリングされる、子要素を受け取らないコンポーネント */
 export type VoidAsyncComponent<Props = {}> = {
     type: "async-component";
     resolveContent: (props: Props) => Promise<Element<any>>;
-    runtimeScript?: string;
 };
 
 export type Component<Props> =
