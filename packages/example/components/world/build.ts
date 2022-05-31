@@ -1,4 +1,4 @@
-import Frostleaf, { h } from "@frostleaf/framework";
+import Frostleaf, { h } from "@frostleaf/build-time";
 
 type Props = {
     name: String;

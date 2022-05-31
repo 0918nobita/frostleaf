@@ -1,4 +1,4 @@
-import { Fragment, h } from "@frostleaf/framework";
+import { Fragment, h } from "@frostleaf/build-time";
 
 import { Hello } from "../components/hello/build";
 import { World } from "../components/world/build";

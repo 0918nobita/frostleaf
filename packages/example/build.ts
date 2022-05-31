@@ -1,4 +1,4 @@
-import { render } from "@frostleaf/framework";
+import { render } from "@frostleaf/build-time";
 
 import { IndexPage } from "./pages/index";
 

@@ -5,26 +5,36 @@ importers:
   .:
     specifiers: {}
 
-  packages/example:
+  packages/build-time:
     specifiers:
-      '@frostleaf/framework': workspace:../framework
-      '@types/node': 17.0.36
       prettier: 2.6.2
       ts-eager: 2.0.2
       typescript: 4.7.2
     devDependencies:
-      '@frostleaf/framework': link:../framework
-      '@types/node': 17.0.36
       prettier: 2.6.2
       ts-eager: 2.0.2
       typescript: 4.7.2
 
-  packages/framework:
+  packages/cli:
     specifiers:
       prettier: 2.6.2
       ts-eager: 2.0.2
       typescript: 4.7.2
     devDependencies:
+      prettier: 2.6.2
+      ts-eager: 2.0.2
+      typescript: 4.7.2
+
+  packages/example:
+    specifiers:
+      '@frostleaf/build-time': workspace:../build-time
+      '@types/node': 17.0.36
+      prettier: 2.6.2
+      ts-eager: 2.0.2
+      typescript: 4.7.2
+    devDependencies:
+      '@frostleaf/build-time': link:../build-time
+      '@types/node': 17.0.36
       prettier: 2.6.2
       ts-eager: 2.0.2
       typescript: 4.7.2

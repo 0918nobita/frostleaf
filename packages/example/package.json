@@ -8,7 +8,7 @@
     "format": "prettier --write ./components ./pages ./build.ts"
   },
   "devDependencies": {
-    "@frostleaf/framework": "workspace:../framework",
+    "@frostleaf/build-time": "workspace:../build-time",
     "@types/node": "17.0.36",
     "prettier": "2.6.2",
     "ts-eager": "2.0.2",
