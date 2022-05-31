@@ -1,11 +1,11 @@
 import path from "path";
 
-import { h, SyncComponent } from "@frostleaf/framework";
+import { h, VoidSyncComponent } from "@frostleaf/framework";
 
-const hello: SyncComponent = {
+export const Hello: VoidSyncComponent = {
     type: "sync-component",
-    resolveContent: (_props) => h("p", {}, []),
+
+    resolveContent: (_props) => h("p", {}, ["Hello"]),
+
     runtimeScript: path.join(__dirname, "runtime.ts"),
 };
-
-export default hello;

@@ -1,7 +1,6 @@
-// import { renderVNode } from "@frostleaf/framework";
+import { render } from "@frostleaf/framework";
 
-import hello from "./components/hello/build";
-import IndexPage from "./pages/index";
+import { IndexPage } from "./pages/index";
 
 console.log("Generating pages...");
-console.log(IndexPage);
+render(IndexPage).then(console.log);
