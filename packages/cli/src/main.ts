@@ -3,6 +3,7 @@ import chalk from "chalk";
 import type { Stats } from "fs";
 import fs from "fs/promises";
 import path from "path";
+import swc from "@swc/core";
 
 const printAndExit = (msg: string, code = 1) => {
     console.error(msg);
@@ -48,7 +49,11 @@ const getComponentPaths = async (): Promise<string[]> => {
         const componentPaths = await getComponentPaths();
         for (const componentPath of componentPaths) {
             console.log(`[${componentPath}]`);
-            console.log((await fs.readFile(componentPath)).toString());
+            const mod = await swc.parseFile(componentPath, {
+                syntax: "typescript",
+            });
+            const ast = mod.body;
+            console.log(ast);
         }
     } catch (e: unknown) {
         printAndExit(String(e));
