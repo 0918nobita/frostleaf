@@ -8,11 +8,9 @@ importers:
   packages/build-time:
     specifiers:
       prettier: 2.6.2
-      ts-eager: 2.0.2
       typescript: 4.7.2
     devDependencies:
       prettier: 2.6.2
-      ts-eager: 2.0.2
       typescript: 4.7.2
 
   packages/cli:
@@ -21,7 +19,6 @@ importers:
       arg: 5.0.1
       chalk: 5.0.1
       prettier: 2.6.2
-      ts-eager: 2.0.2
       typescript: 4.7.2
     dependencies:
       arg: 5.0.1
@@ -29,7 +26,6 @@ importers:
     devDependencies:
       '@types/node': 17.0.36
       prettier: 2.6.2
-      ts-eager: 2.0.2
       typescript: 4.7.2
 
   packages/example:
@@ -37,13 +33,11 @@ importers:
       '@frostleaf/build-time': workspace:../build-time
       '@types/node': 17.0.36
       prettier: 2.6.2
-      ts-eager: 2.0.2
       typescript: 4.7.2
     devDependencies:
       '@frostleaf/build-time': link:../build-time
       '@types/node': 17.0.36
       prettier: 2.6.2
-      ts-eager: 2.0.2
       typescript: 4.7.2
 
 packages:
@@ -56,46 +50,15 @@ packages:
     resolution: {integrity: sha512-e0hDa9H2Z9AwFkk2qDlwhoMYE4eToKarchkQHovNdLTCYMHZHeRjI71crOh+dio4K6u1IcwubQqo79Ga4CyAQA==}
     dev: false
 
-  /buffer-from/1.1.2:
-    resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
-    dev: true
-
   /chalk/5.0.1:
     resolution: {integrity: sha512-Fo07WOYGqMfCWHOzSXOt2CxDbC6skS/jO9ynEcmpANMoPrD+W1r1K6Vx7iNm+AQmETU1Xr2t+n8nzkV9t6xh3w==}
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
     dev: false
 
-  /esbuild/0.11.23:
-    resolution: {integrity: sha512-iaiZZ9vUF5wJV8ob1tl+5aJTrwDczlvGP0JoMmnpC2B0ppiMCu8n8gmy5ZTGl5bcG081XBVn+U+jP+mPFm5T5Q==}
-    hasBin: true
-    requiresBuild: true
-    dev: true
-
   /prettier/2.6.2:
     resolution: {integrity: sha512-PkUpF+qoXTqhOeWL9fu7As8LXsIUZ1WYaJiY/a7McAQzxjk82OF0tibkFXVCDImZtWxbvojFjerkiLb0/q8mew==}
     engines: {node: '>=10.13.0'}
     hasBin: true
-    dev: true
-
-  /source-map-support/0.5.21:
-    resolution: {integrity: sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==}
-    dependencies:
-      buffer-from: 1.1.2
-      source-map: 0.6.1
-    dev: true
-
-  /source-map/0.6.1:
-    resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
-    engines: {node: '>=0.10.0'}
-    dev: true
-
-  /ts-eager/2.0.2:
-    resolution: {integrity: sha512-xzFPL2z7mgLs0brZXaIHTm91Pjl/Cuu9AMKprgSuK+kIS2LjiG8fqqg4eqz3tgBy9OIdupb9w55pr7ea3JBB+Q==}
-    engines: {node: '>=12.18.4'}
-    hasBin: true
-    dependencies:
-      esbuild: 0.11.23
-      source-map-support: 0.5.21
     dev: true
 
   /typescript/4.7.2:
