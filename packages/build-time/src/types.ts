@@ -2,7 +2,7 @@ import { Fragment } from "./fragment";
 
 export type PropsWithChildren<Props> = Props & { children: Element<any> };
 
-export type Component<Props = {}> = ((props: Props) => Element<any>) | ((props: Props) => Promise<Element<any>>);
+export type Component<Props = {}> = (props: Props) => (Element<any> | Promise<Element<any>>);
 
 /** コンポーネントを用いて記述された要素の内部表現 */
 export type ComponentElement<Props> = {
@@ -30,3 +30,5 @@ export type Element<Props> =
     | FHtmlElement
     | ComponentElement<Props>
     | FragmentElement;
+
+export type Page = (_: { query: { [_: string]: string | undefined } }) => (Element<any> | Promise<Element<any>>);
