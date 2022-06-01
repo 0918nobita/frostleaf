@@ -18,8 +18,7 @@ const args = arg(
     { argv: process.argv }
 );
 
-const getComponentPaths = async (projectPath: string): Promise<string[]> => {
-    const componentsDir = path.join(projectPath, "components");
+const getComponentPaths = async (componentsDir: string): Promise<string[]> => {
     let stat: Stats;
     try {
         stat = await fs.stat(componentsDir);
@@ -31,34 +30,42 @@ const getComponentPaths = async (projectPath: string): Promise<string[]> => {
     try {
         return (await fs.readdir(componentsDir)).map((p) =>
             path.join(componentsDir, p)
-        );
+        ).filter((p) => p.endsWith(".ts"));
     } catch (e) {
         throw new Error("Failed to read components directory");
     }
 };
 
-const parseComponentDefs = async (componentPaths: string[]) => {
+const parseComponentDefs = async (
+    componentsDir: string,
+    componentPaths: string[]
+) => {
     try {
         for (const componentPath of componentPaths) {
-            console.log(`[${componentPath}]`);
+            console.log(`Compiling ${componentPath} ...`);
             const mod = await swc.parseFile(componentPath, {
                 syntax: "typescript",
             });
-            const ast = mod.body;
-            console.log(ast);
+            const output = await swc.transform(mod);
+            const outFilePath = path.join(
+                componentsDir,
+                `${path.parse(componentPath).name}.js`
+            );
+            await fs.writeFile(outFilePath, output.code);
         }
     } catch (e: unknown) {
         printAndExit(String(e));
     }
 };
 
-export const main = async () => {
+const main = async () => {
     if (args["--help"]) printAndExit(chalk.bold.magenta("Frostleaf CLI"), 0);
     if (args["--version"]) printAndExit("0.1.0", 0);
     const projectPath =
         args._.length >= 3 ? path.resolve(args._[1]) : process.cwd();
-    const componentPaths = await getComponentPaths(projectPath);
-    await parseComponentDefs(componentPaths);
+    const componentsDir = path.join(projectPath, "components");
+    const componentPaths = await getComponentPaths(componentsDir);
+    await parseComponentDefs(componentsDir, componentPaths);
 };
 
 main();
