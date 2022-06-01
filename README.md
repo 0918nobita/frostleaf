@@ -7,7 +7,8 @@ https://zenn.dev/0918nobita/scraps/64a268583b8463
 ### Install tools
 
 ```bash
-# For details see https://asdf-vm.com/
+asdf plugin-add nodejs
+asdf plugin-add pnpm
 asdf install
 ```
 

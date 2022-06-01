@@ -6,7 +6,7 @@
   "scripts": {
     "check": "tsc --noEmit",
     "build": "tsc",
-    "format": "prettier --write ./components ./pages ./build.ts"
+    "format": "prettier --write ./components ./pages"
   },
   "devDependencies": {
     "@frostleaf/build-time": "workspace:../build-time",

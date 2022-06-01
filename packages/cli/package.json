@@ -3,15 +3,17 @@
   "name": "@frostleaf/cli",
   "version": "0.1.0",
   "type": "module",
-  "main": "./dist/index.js",
   "scripts": {
     "check": "tsc --noEmit",
     "build": "tsc",
-    "main": "node ./dist/main.js",
+    "main": "node dist/main.js",
     "format": "prettier --write ./src"
   },
+  "bin": {
+    "frostleaf": "./bin/frostleaf.js"
+  },
   "dependencies": {
-    "@frostleaf/build-time": "workspace:../build-time",
+    "arg": "5.0.1",
     "chalk": "5.0.1"
   },
   "devDependencies": {

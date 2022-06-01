@@ -17,14 +17,14 @@ importers:
 
   packages/cli:
     specifiers:
-      '@frostleaf/build-time': workspace:../build-time
       '@types/node': 17.0.36
+      arg: 5.0.1
       chalk: 5.0.1
       prettier: 2.6.2
       ts-eager: 2.0.2
       typescript: 4.7.2
     dependencies:
-      '@frostleaf/build-time': link:../build-time
+      arg: 5.0.1
       chalk: 5.0.1
     devDependencies:
       '@types/node': 17.0.36
@@ -51,6 +51,10 @@ packages:
   /@types/node/17.0.36:
     resolution: {integrity: sha512-V3orv+ggDsWVHP99K3JlwtH20R7J4IhI1Kksgc+64q5VxgfRkQG8Ws3MFm/FZOKDYGy9feGFlZ70/HpCNe9QaA==}
     dev: true
+
+  /arg/5.0.1:
+    resolution: {integrity: sha512-e0hDa9H2Z9AwFkk2qDlwhoMYE4eToKarchkQHovNdLTCYMHZHeRjI71crOh+dio4K6u1IcwubQqo79Ga4CyAQA==}
+    dev: false
 
   /buffer-from/1.1.2:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
