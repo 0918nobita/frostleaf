@@ -53,13 +53,7 @@ const renderComponentElement = async (
     componentElement: ComponentElement<any>
 ): Promise<string> => {
     const { component, props, children } = componentElement;
-
-    if (component.type === "sync-component") {
-        const content = component.resolveContent({ ...props, children });
-        return await render(content);
-    }
-
-    const content = await component.resolveContent({ ...props, children });
+    const content = await component({ ...props, children });
     return await render(content);
 };
 

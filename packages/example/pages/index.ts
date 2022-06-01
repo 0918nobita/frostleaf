@@ -1,9 +1,9 @@
-import { Fragment, h } from "@frostleaf/build-time";
+import { Component, Fragment, h } from "@frostleaf/build-time";
 
-import { Hello } from "../components/hello/build";
-import { World } from "../components/world/build";
+import Hello from "../components/Hello";
+import World from "../components/World";
 
-export const IndexPage = h(Fragment, {}, [
+export const IndexPage: Component = () => h(Fragment, {}, [
     h(Hello, {}, []),
     h(World, { name: "world" }, []),
 ]);
