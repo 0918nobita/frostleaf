@@ -3,7 +3,7 @@ import chalk from "chalk";
 import type { Stats } from "fs";
 import fs from "fs/promises";
 import path from "path";
-import swc from "@swc/core";
+import * as swc from "@swc/core";
 
 const printAndExit = (msg: string, code = 1) => {
     console.error(msg);
@@ -18,14 +18,7 @@ const args = arg(
     { argv: process.argv }
 );
 
-if (args["--help"]) printAndExit(chalk.bold.magenta("Frostleaf CLI"), 0);
-
-if (args["--version"]) printAndExit("0.1.0", 0);
-
-const projectPath =
-    args._.length >= 3 ? path.resolve(args._[1]) : process.cwd();
-
-const getComponentPaths = async (): Promise<string[]> => {
+const getComponentPaths = async (projectPath: string): Promise<string[]> => {
     const componentsDir = path.join(projectPath, "components");
     let stat: Stats;
     try {
@@ -44,9 +37,8 @@ const getComponentPaths = async (): Promise<string[]> => {
     }
 };
 
-(async () => {
+const parseComponentDefs = async (componentPaths: string[]) => {
     try {
-        const componentPaths = await getComponentPaths();
         for (const componentPath of componentPaths) {
             console.log(`[${componentPath}]`);
             const mod = await swc.parseFile(componentPath, {
@@ -58,4 +50,15 @@ const getComponentPaths = async (): Promise<string[]> => {
     } catch (e: unknown) {
         printAndExit(String(e));
     }
-})();
+};
+
+export const main = async () => {
+    if (args["--help"]) printAndExit(chalk.bold.magenta("Frostleaf CLI"), 0);
+    if (args["--version"]) printAndExit("0.1.0", 0);
+    const projectPath =
+        args._.length >= 3 ? path.resolve(args._[1]) : process.cwd();
+    const componentPaths = await getComponentPaths(projectPath);
+    await parseComponentDefs(componentPaths);
+};
+
+main();
