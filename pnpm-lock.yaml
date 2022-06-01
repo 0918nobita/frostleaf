@@ -30,11 +30,13 @@ importers:
 
   packages/example:
     specifiers:
+      '@forstleaf/cli': workspace:../cli
       '@frostleaf/build-time': workspace:../build-time
       '@types/node': 17.0.36
       prettier: 2.6.2
       typescript: 4.7.2
     devDependencies:
+      '@forstleaf/cli': link:../cli
       '@frostleaf/build-time': link:../build-time
       '@types/node': 17.0.36
       prettier: 2.6.2

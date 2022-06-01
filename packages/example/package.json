@@ -5,10 +5,12 @@
   "type": "module",
   "scripts": {
     "check": "tsc",
+    "build": "frostleaf",
     "format": "prettier --write ./components ./pages"
   },
   "devDependencies": {
     "@frostleaf/build-time": "workspace:../build-time",
+    "@forstleaf/cli": "workspace:../cli",
     "@types/node": "17.0.36",
     "prettier": "2.6.2",
     "typescript": "4.7.2"

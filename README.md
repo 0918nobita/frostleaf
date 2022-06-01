@@ -36,7 +36,7 @@ pnpm build
 pnpm format
 ```
 
-### Run
+### Run frostleaf CLI
 
 ```bash
 pnpm main
