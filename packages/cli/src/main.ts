@@ -75,6 +75,7 @@ const main = async (): Promise<void> => {
         bundle: true,
         outfile: bundleJs,
         format: "cjs",
+        external: ["@frostleaf/build-time"],
     });
 
     const pages = require(bundleJs);

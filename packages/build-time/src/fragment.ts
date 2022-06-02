@@ -1,1 +1,1 @@
-export const Fragment = "Fragment";
+export const Fragment = Symbol("Fragment");

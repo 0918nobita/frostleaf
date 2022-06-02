@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "scripts": {
     "check": "tsc",
-    "build": "esbuild --platform=node --bundle --outfile=dist/main.js --external:esbuild src/main.ts",
+    "build": "esbuild --platform=node --bundle --outfile=dist/main.js --external:esbuild --external:@frostleaf/build-time src/main.ts",
     "main": "node dist/main.js",
     "format": "prettier --write ./src"
   },
