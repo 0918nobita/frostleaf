@@ -1,9 +1,9 @@
 import arg from "arg";
 import chalk from "chalk";
+import esbuild from "esbuild";
 import type { Stats } from "fs";
 import fs from "fs/promises";
 import path from "path";
-import * as swc from "@swc/core";
 
 const printAndExit = (msg: string, code = 1) => {
     console.error(msg);
@@ -46,15 +46,16 @@ const compileComponentDefs = async (
 
         for (const componentPath of componentPaths) {
             console.log(`Compiling ${componentPath} ...`);
-            const mod = await swc.parseFile(componentPath, {
-                syntax: "typescript",
-            });
-            const output = await swc.transform(mod);
+            const src = await fs.readFile(componentPath, { encoding: "utf8" });
+
+            const result = await esbuild.transform(src, { loader: "ts" });
+            for (const warning of result.warnings) console.warn(warning);
+
             const outFilePath = path.join(
                 destComponentsDir,
                 `${path.parse(componentPath).name}.js`
             );
-            await fs.writeFile(outFilePath, output.code);
+            await fs.writeFile(outFilePath, result.code);
         }
     } catch (e: unknown) {
         printAndExit(String(e));
