@@ -3,33 +3,36 @@ import * as estree from "estree";
 
 import { ImportMap } from "./importMap";
 
-const requireStatement = (
+const requireStatements = (
     importList: [string, string][]
-): estree.VariableDeclaration => ({
-    type: "VariableDeclaration",
-    kind: "const",
-    declarations: importList.map(([name, from]) => ({
-        type: "VariableDeclarator",
-        id: {
-            type: "Identifier",
-            name,
-        },
-        init: {
-            type: "CallExpression",
-            optional: false,
-            callee: {
-                type: "Identifier",
-                name: "require",
-            },
-            arguments: [
-                {
-                    type: "Literal",
-                    value: from,
+): estree.VariableDeclaration[] =>
+    importList.map(([name, from]) => ({
+        type: "VariableDeclaration",
+        kind: "const",
+        declarations: [
+            {
+                type: "VariableDeclarator",
+                id: {
+                    type: "Identifier",
+                    name,
                 },
-            ],
-        },
-    })),
-});
+                init: {
+                    type: "CallExpression",
+                    optional: false,
+                    callee: {
+                        type: "Identifier",
+                        name: "require",
+                    },
+                    arguments: [
+                        {
+                            type: "Literal",
+                            value: from,
+                        },
+                    ],
+                },
+            },
+        ],
+    }));
 
 const exportStatement = (names: string[]): estree.ExpressionStatement => ({
     type: "ExpressionStatement",
@@ -65,15 +68,13 @@ const exportStatement = (names: string[]): estree.ExpressionStatement => ({
 });
 
 export const generateIndexJs = (importMap: ImportMap): string => {
+    const requireStmts = requireStatements(importMap);
     const exportStmt = exportStatement(importMap.map(([name]) => name));
 
     const ast: estree.Program = {
         type: "Program",
         sourceType: "script",
-        body: [
-            ...(importMap.length !== 0 ? [requireStatement(importMap)] : []),
-            exportStmt,
-        ],
+        body: [...requireStmts, exportStmt],
     };
 
     return astring.generate(ast);
