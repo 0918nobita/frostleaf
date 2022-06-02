@@ -1,3 +1,4 @@
+import { Element, render } from "@frostleaf/build-time";
 import arg from "arg";
 import chalk from "chalk";
 import esbuild from "esbuild";
@@ -5,7 +6,6 @@ import type { Stats } from "fs";
 import fs from "fs/promises";
 import path from "path";
 
-import { generateIndexJs } from "./generateIndexJs";
 import type { ImportMap } from "./importMap";
 import { prepareCleanDir } from "./prepareCleanDir";
 
@@ -22,7 +22,7 @@ const args = arg(
     { argv: process.argv }
 );
 
-const getComponentPaths = async (componentsDir: string): Promise<ImportMap> => {
+const getTsFilePaths = async (componentsDir: string): Promise<ImportMap> => {
     let stat: Stats;
     try {
         stat = await fs.stat(componentsDir);
@@ -41,38 +41,6 @@ const getComponentPaths = async (componentsDir: string): Promise<ImportMap> => {
     }
 };
 
-const compileComponentDefs = async (
-    projectRoot: string,
-    destComponentsDir: string,
-    componentImportMap: ImportMap
-): Promise<ImportMap> => {
-    const destImportMap: ImportMap = [];
-    for (const [componentName, componentPath] of componentImportMap) {
-        const outFilePath = path.join(
-            destComponentsDir,
-            `_${componentName}.js`
-        );
-
-        console.log(
-            `Compiling ${path.relative(
-                projectRoot,
-                componentPath
-            )} to ${path.relative(projectRoot, outFilePath)} ...`
-        );
-        const src = await fs.readFile(componentPath, { encoding: "utf8" });
-
-        const result = await esbuild.transform(src, {
-            loader: "ts",
-            format: "cjs",
-        });
-        for (const warning of result.warnings) console.warn(warning);
-
-        destImportMap.push([componentName, outFilePath]);
-        await fs.writeFile(outFilePath, result.code);
-    }
-    return destImportMap;
-};
-
 const main = async (): Promise<void> => {
     if (args["--help"]) printAndExit(chalk.bold.magenta("Frostleaf CLI"), 0);
 
@@ -81,28 +49,73 @@ const main = async (): Promise<void> => {
     const projectRoot =
         args._.length >= 3 ? path.resolve(args._[1]) : process.cwd();
 
-    const componentsDir = path.join(projectRoot, "components");
-    const componentImportMap = await getComponentPaths(componentsDir);
+    const pagesDir = path.join(projectRoot, "pages");
+    const pageImportMap = await getTsFilePaths(pagesDir);
 
     const destDir = path.join(projectRoot, "_frostleaf");
     await prepareCleanDir(destDir);
 
-    const destComponentsDir = path.join(destDir, "components");
-    await prepareCleanDir(destComponentsDir);
+    const entryPointTs = path.join(destDir, "entryPoint.ts");
+    console.log(`Generating ${path.relative(projectRoot, entryPointTs)} ...`);
+    const content = pageImportMap
+        .map(([name, from]) => {
+            const parsedPath = path.parse(path.relative(destDir, from));
+            return `export * as ${name} from "${path.join(
+                parsedPath.dir,
+                parsedPath.name
+            )}";\n`;
+        })
+        .join("");
+    await fs.writeFile(entryPointTs, content);
 
-    const destImportMap = await compileComponentDefs(
-        projectRoot,
-        destComponentsDir,
-        componentImportMap
+    const bundleJs = path.join(destDir, "bundle.js");
+    console.log("Bundling pages ...");
+    await esbuild.build({
+        entryPoints: [entryPointTs],
+        bundle: true,
+        outfile: bundleJs,
+        format: "cjs",
+    });
+
+    const pages = require(bundleJs);
+
+    const pageElements = await Promise.all(
+        Object.entries(pages).flatMap(([pageName, content]: [string, any]) => {
+            if ("default" in content) return [[pageName, content.default()]];
+            return [];
+        })
     );
 
-    const destComponentIndexJs = path.join(destComponentsDir, "index.js");
-    console.log(
-        `Generating ${path.relative(projectRoot, destComponentIndexJs)} ...`
+    const renderResults = await Promise.all(
+        pageElements.map(([pageName, element]) =>
+            render(element as unknown as Element<any>).then((html) => [
+                pageName,
+                html,
+            ])
+        )
     );
-    await fs.writeFile(destComponentIndexJs, generateIndexJs(destImportMap));
 
-    require(destComponentIndexJs);
+    const outDir = path.join(destDir, "out");
+    await prepareCleanDir(outDir);
+
+    await Promise.all(
+        renderResults.map(([pageName, html]) => {
+            const pagePath = path.join(outDir, `${pageName}.html`);
+            return fs.writeFile(
+                pagePath,
+                `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+${html}
+</body>
+</html>
+`
+            );
+        })
+    );
 };
 
 main();
