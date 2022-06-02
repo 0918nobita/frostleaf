@@ -3,5 +3,12 @@
 
   "compilerOptions": {
     /* このファイルの詳細については、https://aka.ms/tsconfig をご覧ください */
-  }
+    "jsx": "react",
+    "jsxFactory": "Frostleaf.createElement",
+    "jsxFragmentFactory": "Frostleaf.Fragment"
+  },
+
+  "files": [
+    "env.d.ts"
+  ]
 }

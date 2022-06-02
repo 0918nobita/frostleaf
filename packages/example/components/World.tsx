@@ -1,4 +1,5 @@
-import { Component, h } from "@frostleaf/build-time";
+import * as Frostleaf from "@frostleaf/build-time";
+import { Component } from "@frostleaf/build-time";
 
 console.log("[Building] World component");
 
@@ -7,7 +8,7 @@ type Props = {
 };
 
 const World: Component<Props> = async ({ name }: Props) => {
-    return h("p", {}, [`${name}!`]);
+    return <p>{name}!</p>;
 };
 
 export default World;

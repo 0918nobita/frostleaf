@@ -34,7 +34,7 @@ const getTsFilePaths = async (componentsDir: string): Promise<ImportMap> => {
     try {
         const files = await fs.readdir(componentsDir);
         return files
-            .filter((p) => p.endsWith(".ts"))
+            .filter((p) => p.endsWith(".ts") || p.endsWith(".tsx"))
             .map((p) => [path.parse(p).name, path.join(componentsDir, p)]);
     } catch (e) {
         throw new Error("Failed to read components directory");
