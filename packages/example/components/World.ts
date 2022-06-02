@@ -1,5 +1,7 @@
 import { Component, h } from "@frostleaf/build-time";
 
+console.log("[Building] World component");
+
 type Props = {
     name: String;
 };

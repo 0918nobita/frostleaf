@@ -5,6 +5,8 @@ import type { Stats } from "fs";
 import fs from "fs/promises";
 import path from "path";
 
+import { generateIndexJs } from "./generateIndexJs";
+import type { ImportMap } from "./importMap";
 import { prepareCleanDir } from "./prepareCleanDir";
 
 const printAndExit = (msg: string, code = 1) => {
@@ -20,7 +22,7 @@ const args = arg(
     { argv: process.argv }
 );
 
-const getComponentPaths = async (componentsDir: string): Promise<string[]> => {
+const getComponentPaths = async (componentsDir: string): Promise<ImportMap> => {
     let stat: Stats;
     try {
         stat = await fs.stat(componentsDir);
@@ -30,38 +32,48 @@ const getComponentPaths = async (componentsDir: string): Promise<string[]> => {
     if (!stat.isDirectory())
         throw new Error(`components directory must be folder`);
     try {
-        return (await fs.readdir(componentsDir))
-            .map((p) => path.join(componentsDir, p))
-            .filter((p) => p.endsWith(".ts"));
+        const files = await fs.readdir(componentsDir);
+        return files
+            .filter((p) => p.endsWith(".ts"))
+            .map((p) => [path.parse(p).name, path.join(componentsDir, p)]);
     } catch (e) {
         throw new Error("Failed to read components directory");
     }
 };
 
 const compileComponentDefs = async (
+    projectRoot: string,
     destComponentsDir: string,
-    componentPaths: string[]
-): Promise<void> => {
-    try {
-        for (const componentPath of componentPaths) {
-            console.log(`Compiling ${componentPath} ...`);
-            const src = await fs.readFile(componentPath, { encoding: "utf8" });
+    componentImportMap: ImportMap
+): Promise<ImportMap> => {
+    const destImportMap: ImportMap = [];
+    for (const [componentName, componentPath] of componentImportMap) {
+        const outFilePath = path.join(
+            destComponentsDir,
+            `_${componentName}.js`
+        );
 
-            const result = await esbuild.transform(src, { loader: "ts" });
-            for (const warning of result.warnings) console.warn(warning);
+        console.log(
+            `Compiling ${path.relative(
+                projectRoot,
+                componentPath
+            )} to ${path.relative(projectRoot, outFilePath)} ...`
+        );
+        const src = await fs.readFile(componentPath, { encoding: "utf8" });
 
-            const outFilePath = path.join(
-                destComponentsDir,
-                `_${path.parse(componentPath).name}.js`
-            );
-            await fs.writeFile(outFilePath, result.code);
-        }
-    } catch (e: unknown) {
-        printAndExit(String(e));
+        const result = await esbuild.transform(src, {
+            loader: "ts",
+            format: "cjs",
+        });
+        for (const warning of result.warnings) console.warn(warning);
+
+        destImportMap.push([componentName, outFilePath]);
+        await fs.writeFile(outFilePath, result.code);
     }
+    return destImportMap;
 };
 
-const main = async () => {
+const main = async (): Promise<void> => {
     if (args["--help"]) printAndExit(chalk.bold.magenta("Frostleaf CLI"), 0);
 
     if (args["--version"]) printAndExit("0.1.0", 0);
@@ -70,7 +82,7 @@ const main = async () => {
         args._.length >= 3 ? path.resolve(args._[1]) : process.cwd();
 
     const componentsDir = path.join(projectRoot, "components");
-    const componentPaths = await getComponentPaths(componentsDir);
+    const componentImportMap = await getComponentPaths(componentsDir);
 
     const destDir = path.join(projectRoot, "_frostleaf");
     await prepareCleanDir(destDir);
@@ -78,7 +90,19 @@ const main = async () => {
     const destComponentsDir = path.join(destDir, "components");
     await prepareCleanDir(destComponentsDir);
 
-    await compileComponentDefs(destComponentsDir, componentPaths);
+    const destImportMap = await compileComponentDefs(
+        projectRoot,
+        destComponentsDir,
+        componentImportMap
+    );
+
+    const destComponentIndexJs = path.join(destComponentsDir, "index.js");
+    console.log(
+        `Generating ${path.relative(projectRoot, destComponentIndexJs)} ...`
+    );
+    await fs.writeFile(destComponentIndexJs, generateIndexJs(destImportMap));
+
+    require(destComponentIndexJs);
 };
 
 main();

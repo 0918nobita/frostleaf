@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "scripts": {
     "check": "tsc",
-    "build": "esbuild --platform=node --bundle --minify --outfile=dist/main.js --external:esbuild src/main.ts",
+    "build": "esbuild --platform=node --bundle --outfile=dist/main.js --external:esbuild src/main.ts",
     "main": "node dist/main.js",
     "format": "prettier --write ./src"
   },
@@ -15,8 +15,10 @@
     "esbuild": "0.14.42"
   },
   "devDependencies": {
+    "@types/estree": "0.0.51",
     "@types/node": "17.0.36",
     "arg": "5.0.1",
+    "astring": "1.8.3",
     "chalk": "5.0.1",
     "prettier": "2.6.2",
     "typescript": "4.7.2"
