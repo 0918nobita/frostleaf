@@ -5,6 +5,8 @@ import type { Stats } from "fs";
 import fs from "fs/promises";
 import path from "path";
 
+import { prepareCleanDir } from "./prepareCleanDir";
+
 const printAndExit = (msg: string, code = 1) => {
     console.error(msg);
     process.exit(code);
@@ -37,13 +39,10 @@ const getComponentPaths = async (componentsDir: string): Promise<string[]> => {
 };
 
 const compileComponentDefs = async (
-    destDir: string,
+    destComponentsDir: string,
     componentPaths: string[]
-) => {
+): Promise<void> => {
     try {
-        const destComponentsDir = path.join(destDir, "components");
-        await fs.mkdir(destComponentsDir, { recursive: true });
-
         for (const componentPath of componentPaths) {
             console.log(`Compiling ${componentPath} ...`);
             const src = await fs.readFile(componentPath, { encoding: "utf8" });
@@ -53,7 +52,7 @@ const compileComponentDefs = async (
 
             const outFilePath = path.join(
                 destComponentsDir,
-                `${path.parse(componentPath).name}.js`
+                `_${path.parse(componentPath).name}.js`
             );
             await fs.writeFile(outFilePath, result.code);
         }
@@ -71,13 +70,15 @@ const main = async () => {
         args._.length >= 3 ? path.resolve(args._[1]) : process.cwd();
 
     const componentsDir = path.join(projectRoot, "components");
-
     const componentPaths = await getComponentPaths(componentsDir);
 
-    const frostleafDir = path.join(projectRoot, "_frostleaf");
-    await fs.mkdir(frostleafDir, { recursive: true });
+    const destDir = path.join(projectRoot, "_frostleaf");
+    await prepareCleanDir(destDir);
 
-    await compileComponentDefs(frostleafDir, componentPaths);
+    const destComponentsDir = path.join(destDir, "components");
+    await prepareCleanDir(destComponentsDir);
+
+    await compileComponentDefs(destComponentsDir, componentPaths);
 };
 
 main();
