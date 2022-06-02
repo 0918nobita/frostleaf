@@ -65,12 +65,16 @@ const exportStatement = (names: string[]): estree.ExpressionStatement => ({
 });
 
 export const generateIndexJs = (importMap: ImportMap): string => {
-    const requireStmt = requireStatement(importMap);
     const exportStmt = exportStatement(importMap.map(([name]) => name));
+
     const ast: estree.Program = {
         type: "Program",
         sourceType: "script",
-        body: [requireStmt, exportStmt],
+        body: [
+            ...(importMap.length !== 0 ? [requireStatement(importMap)] : []),
+            exportStmt,
+        ],
     };
+
     return astring.generate(ast);
 };
