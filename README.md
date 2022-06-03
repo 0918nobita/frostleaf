@@ -30,7 +30,13 @@ pnpm check
 pnpm build
 ```
 
-### Format code
+### Lint
+
+```bash
+pnpm lint
+```
+
+### Format
 
 ```bash
 pnpm format
