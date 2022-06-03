@@ -1,5 +1,4 @@
-import * as Frostleaf from "@frostleaf/build-time";
-import { Page } from "@frostleaf/build-time";
+import { Page } from "@frostleaf/core";
 
 const SecondPage: Page = () => <p>Example</p>;
 

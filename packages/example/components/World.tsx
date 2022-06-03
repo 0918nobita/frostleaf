@@ -1,5 +1,4 @@
-import * as Frostleaf from "@frostleaf/build-time";
-import { Component } from "@frostleaf/build-time";
+import { Component } from "@frostleaf/core";
 
 console.log("[Building] World component");
 

@@ -1,5 +1,3 @@
-import { Fragment } from "./fragment";
-
 export type PropsWithChildren<Props> = Props & { children: Element<any> };
 
 export type Component<Props = {}> = (
@@ -21,6 +19,8 @@ export type FHtmlElement = {
     attrs: Record<string, string>;
     children: Element<any>[];
 };
+
+export const Fragment = "Fragment";
 
 export type FragmentElement = {
     type: typeof Fragment;
