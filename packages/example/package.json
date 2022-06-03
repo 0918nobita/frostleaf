@@ -5,7 +5,7 @@
   "scripts": {
     "check": "tsc",
     "build": "frostleaf",
-    "format": "prettier --write ./components ./pages"
+    "format": "prettier --write ."
   },
   "devDependencies": {
     "@frostleaf/build-time": "workspace:../build-time",
