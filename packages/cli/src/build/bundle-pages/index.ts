@@ -1,5 +1,7 @@
 import esbuild from "esbuild";
-import { BundleJs, EntryPointTs } from "./path";
+
+import { BundleJs, EntryPointTs } from "../path";
+import { esbuildPluginReactJsx } from "./esbuild-plugin";
 
 type Args = {
     bundleJs: BundleJs.BundleJs;
@@ -13,6 +15,7 @@ export const bundlePages = async ({ bundleJs, entryPointTs }: Args) => {
         bundle: true,
         outfile: bundleJs,
         format: "cjs",
-        external: ["@frostleaf/build-time"],
+        external: ["@frostleaf/core"],
+        plugins: [esbuildPluginReactJsx],
     });
 };

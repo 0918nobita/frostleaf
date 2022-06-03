@@ -1,4 +1,4 @@
-import { Element, render } from "@frostleaf/build-time";
+import { Element, render } from "@frostleaf/core";
 import fs from "fs/promises";
 import path from "path";
 

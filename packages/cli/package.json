@@ -5,7 +5,7 @@
   "scripts": {
     "check": "tsc",
     "build": "run-p build:src build:bin",
-    "build:src": "esbuild --platform=node --bundle --outfile=dist/main.js --external:esbuild --external:@frostleaf/build-time src/main.ts",
+    "build:src": "esbuild --platform=node --bundle --outfile=dist/main.js --external:esbuild --external:@babel/core --external:@babel/plugin-transform-typescript --external:@babel/plugin-transform-react-jsx src/main.ts",
     "build:bin": "esbuild --platform=node --outfile=dist/bin/frostleaf.js --format=cjs bin/frostleaf.ts",
     "main": "node dist/main.js",
     "lint": "eslint . --ext .ts,.tsx",
@@ -15,10 +15,14 @@
     "frostleaf": "./dist/bin/frostleaf.js"
   },
   "dependencies": {
+    "@babel/core": "7.18.2",
+    "@babel/plugin-transform-typescript": "7.17.12",
+    "@babel/plugin-transform-react-jsx": "7.17.12",
+    "@frostleaf/core": "workspace:../core",
     "esbuild": "0.14.42"
   },
   "devDependencies": {
-    "@frostleaf/build-time": "workspace:../build-time",
+    "@types/babel__core": "7.1.19",
     "@types/estree": "0.0.51",
     "@types/node": "17.0.36",
     "@typescript-eslint/eslint-plugin": "5.27.0",

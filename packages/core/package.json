@@ -1,0 +1,14 @@
+{
+  "name": "@frostleaf/core",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "check": "tsc --noEmit",
+    "build": "cpy --flat src/global.d.ts dist && tsc"
+  },
+  "devDependencies": {
+    "cpy-cli": "4.1.0",
+    "typescript": "4.7.2"
+  }
+}

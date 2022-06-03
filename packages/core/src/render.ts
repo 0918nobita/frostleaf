@@ -1,8 +1,8 @@
-import { Fragment } from "./fragment";
 import {
     ComponentElement,
     Element,
     FHtmlElement,
+    Fragment,
     FragmentElement,
 } from "./types";
 

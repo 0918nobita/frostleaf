@@ -1,1 +1,1 @@
-/// <reference types="@frostleaf/build-time/global" />
+/// <reference types="@frostleaf/core/global" />

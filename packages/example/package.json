@@ -7,9 +7,12 @@
     "build": "frostleaf",
     "format": "prettier --write ."
   },
+  "dependencies": {
+    "@frostleaf/core": "workspace:../core",
+    "@frostleaf/jsx-runtime": "workspace:../jsx-runtime"
+  },
   "devDependencies": {
-    "@frostleaf/build-time": "workspace:../build-time",
-    "@forstleaf/cli": "workspace:../cli",
+    "@frostleaf/cli": "workspace:../cli",
     "@types/node": "17.0.36",
     "prettier": "2.6.2",
     "typescript": "4.7.2"
