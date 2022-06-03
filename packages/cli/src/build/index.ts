@@ -20,7 +20,8 @@ export const build = async <T extends arg.Spec>(
     const bundleJs = BundleJs.get(destDir);
     await bundlePages({ bundleJs, entryPointTs });
 
-    const pages = require(bundleJs);
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const pages = require(bundleJs) as { [_ in string]?: unknown };
 
     await renderPages({ destDir, pages });
 };

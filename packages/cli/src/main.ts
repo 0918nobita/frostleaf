@@ -14,7 +14,7 @@ const main = async (): Promise<void> => {
 
     processFlags(validArgs);
 
-    build(validArgs);
+    await build(validArgs);
 };
 
-main();
+void main();

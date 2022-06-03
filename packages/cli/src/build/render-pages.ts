@@ -14,18 +14,20 @@ export const renderPages = async ({ destDir, pages }: Args) => {
     console.log("Rendering pages ...");
 
     const pageElements = await Promise.all(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         Object.entries(pages).flatMap(([pageName, content]: [string, any]) => {
-            if ("default" in content) return [[pageName, content.default()]];
+            if ("default" in content)
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+                return [[pageName, content.default()]] as const;
             return [];
         })
     );
 
     const renderResults = await Promise.all(
         pageElements.map(([pageName, element]) =>
-            render(element as unknown as Element<any>).then((html) => [
-                pageName,
-                html,
-            ])
+            render(element as unknown as Element<unknown>).then(
+                (html) => [pageName, html] as const
+            )
         )
     );
 
