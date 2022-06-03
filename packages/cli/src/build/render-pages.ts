@@ -25,7 +25,7 @@ export const renderPages = async ({ destDir, pages }: Args) => {
 
     const renderResults = await Promise.all(
         pageElements.map(([pageName, element]) =>
-            render(element as unknown as Element<unknown>).then(
+            render(element as unknown as Element<Record<string, unknown>>).then(
                 (html) => [pageName, html] as const
             )
         )

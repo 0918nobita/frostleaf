@@ -50,7 +50,7 @@ const renderHtmlElement = async (
 };
 
 const renderComponentElement = async (
-    componentElement: ComponentElement<any>
+    componentElement: ComponentElement<Record<string, unknown>>
 ): Promise<string> => {
     const { component, props, children } = componentElement;
     const content = await component({ ...props, children });
@@ -62,7 +62,9 @@ const renderFragmentElement = async (fragment: FragmentElement) => {
     return (await Promise.all(children.map(render))).join("");
 };
 
-export const render = async (element: Element<any>): Promise<string> => {
+export const render = async (
+    element: Element<Record<string, unknown>>
+): Promise<string> => {
     if (typeof element === "string") return element;
 
     if (element.type === "html-element")

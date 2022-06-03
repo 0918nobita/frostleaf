@@ -22,6 +22,7 @@
     "esbuild": "0.14.42"
   },
   "devDependencies": {
+    "@frostleaf/eslint-config": "workspace:../eslint-config",
     "@types/babel__core": "7.1.19",
     "@types/estree": "0.0.51",
     "@types/node": "17.0.36",
