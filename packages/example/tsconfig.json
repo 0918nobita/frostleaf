@@ -8,7 +8,5 @@
     "jsxFragmentFactory": "Frostleaf.Fragment"
   },
 
-  "files": [
-    "env.d.ts"
-  ]
+  "files": ["frostleaf-env.d.ts"]
 }
