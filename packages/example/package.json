@@ -5,6 +5,7 @@
   "scripts": {
     "check": "tsc",
     "build": "frostleaf",
+    "lint": "eslint . --ext .ts,.tsx",
     "format": "prettier --write ."
   },
   "dependencies": {
@@ -13,7 +14,12 @@
   },
   "devDependencies": {
     "@frostleaf/cli": "workspace:../cli",
+    "@frostleaf/eslint-config": "workspace:../eslint-config",
+    "@frostleaf/type": "workspace:../type",
     "@types/node": "17.0.36",
+    "@typescript-eslint/eslint-plugin": "5.27.0",
+    "@typescript-eslint/parser": "5.27.0",
+    "eslint": "8.16.0",
     "prettier": "2.6.2",
     "typescript": "4.7.2"
   }

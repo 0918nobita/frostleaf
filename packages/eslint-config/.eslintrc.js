@@ -8,6 +8,9 @@ module.exports = ({ tsconfigRootDir }) => ({
         es6: true,
         node: true,
     },
+    parserOptions: {
+        ecmaVersion: 2018,
+    },
     extends: ["eslint:recommended"],
     ignorePatterns: ["dist"],
     overrides: [

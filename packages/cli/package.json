@@ -8,7 +8,7 @@
     "build:src": "esbuild --platform=node --bundle --outfile=dist/main.js --external:esbuild --external:@babel/core --external:@babel/plugin-transform-typescript --external:@babel/plugin-transform-react-jsx src/main.ts",
     "build:bin": "esbuild --platform=node --outfile=dist/bin/frostleaf.js --format=cjs bin/frostleaf.ts",
     "main": "node dist/main.js",
-    "lint": "eslint . --ext .ts,.tsx",
+    "lint": "eslint . --ext .ts",
     "format": "prettier --write ."
   },
   "bin": {

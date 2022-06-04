@@ -3,8 +3,5 @@
 
   "compilerOptions": {
     /* このファイルの詳細については、https://aka.ms/tsconfig をご覧ください */
-    "jsx": "react-jsx",
-    "jsxImportSource": "@frostleaf",
-    "types": ["@frostleaf/type"]
   }
 }

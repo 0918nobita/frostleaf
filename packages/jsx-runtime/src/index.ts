@@ -2,7 +2,9 @@ export { Fragment } from "@frostleaf/core";
 
 import { Component, Element, Fragment } from "@frostleaf/core";
 
-type PropsWithChild<Props> = Props & { children?: Element<any> };
+type AnyObj = Record<string, unknown>;
+
+type PropsWithChild<Props> = Props & { children?: Element<AnyObj> };
 
 export const jsx = <Props>(
     tagOrComponent: string | Component<Props> | typeof Fragment,
@@ -19,8 +21,10 @@ export const jsx = <Props>(
         for (const [key, value] of Object.entries(props)) {
             if (key === "children") continue;
             if (typeof value !== "string")
-                throw new Error(`Invalid attribute value for ${key}: ${value}`);
-            attrs[key] = value as string;
+                throw new Error(
+                    `Invalid attribute value for ${key}: ${String(value)}`
+                );
+            attrs[key] = value;
         }
 
         return {
@@ -39,7 +43,7 @@ export const jsx = <Props>(
     };
 };
 
-type PropsWithChildren<Props> = Props & { children: Element<any>[] };
+type PropsWithChildren<Props> = Props & { children: Element<AnyObj>[] };
 
 export const jsxs = <Props>(
     tagOrComponent: string | Component<Props> | typeof Fragment,
@@ -56,7 +60,9 @@ export const jsxs = <Props>(
         for (const [key, value] of Object.entries(props)) {
             if (key === "children") continue;
             if (typeof value !== "string")
-                throw new Error(`Invalid attribute value for ${key}: ${value}`);
+                throw new Error(
+                    `Invalid attribute value for ${key}: ${String(value)}`
+                );
             attrs[key] = value;
         }
 

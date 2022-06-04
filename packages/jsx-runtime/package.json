@@ -5,12 +5,19 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "check": "tsc --noEmit",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@frostleaf/core": "workspace:../core"
   },
   "devDependencies": {
+    "@frostleaf/eslint-config": "workspace:../eslint-config",
+    "@typescript-eslint/eslint-plugin": "5.27.0",
+    "@typescript-eslint/parser": "5.27.0",
+    "eslint": "8.16.0",
+    "prettier": "2.6.2",
     "typescript": "4.7.2"
   }
 }
