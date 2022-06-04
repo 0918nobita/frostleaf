@@ -16,7 +16,7 @@ export const esbuildPluginReactJsx: esbuild.Plugin = {
                         "@babel/plugin-transform-react-jsx",
                         {
                             runtime: "automatic",
-                            importSource: "@frostleaf",
+                            importSource: "frostleaf",
                         },
                     ],
                 ],

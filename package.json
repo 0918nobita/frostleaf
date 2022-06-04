@@ -1,10 +1,10 @@
 {
   "scripts": {
-    "check": "pnpm --filter @frostleaf/* run check",
-    "build": "pnpm --filter @frostleaf/* run build",
-    "lint": "pnpm --filter @frostleaf/* run lint",
-    "format": "pnpm --filter @frostleaf/* run format",
-    "main": "pnpm --filter @frostleaf/cli run main"
+    "check": "pnpm --filter @frostleaf/* --filter frostleaf run check",
+    "build": "pnpm --filter @frostleaf/* --filter frostleaf run build",
+    "lint": "pnpm --filter @frostleaf/* --filter frostleaf run lint",
+    "format": "pnpm --filter @frostleaf/* --filter frostleaf run format",
+    "main": "pnpm --filter frostleaf run main"
   },
   "engines": {
     "npm": "forbidden, use pnpm",

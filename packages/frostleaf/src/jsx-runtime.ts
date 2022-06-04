@@ -1,6 +1,6 @@
-export { Fragment } from "@frostleaf/core";
+export { Fragment } from "./core";
 
-import { Component, Element, Fragment } from "@frostleaf/core";
+import { Component, Element, Fragment } from "./core";
 
 type AnyObj = Record<string, unknown>;
 

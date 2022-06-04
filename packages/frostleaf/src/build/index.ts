@@ -1,6 +1,6 @@
 import arg from "arg";
 
-import { bundlePages } from "./bundle-pages/index";
+import { bundlePages } from "./bundle-pages";
 import { generateEntryPoint } from "./generate-entry-point";
 import { BundleJs, DestDir, EntryPointTs, ProjectRoot } from "./path";
 import { prepareCleanDir } from "./prepare-clean-dir";

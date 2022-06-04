@@ -9,14 +9,11 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@frostleaf/core": "workspace:../core",
-    "@frostleaf/jsx-runtime": "workspace:../jsx-runtime"
+    "frostleaf": "workspace:../frostleaf"
   },
   "devDependencies": {
-    "@frostleaf/cli": "workspace:../cli",
     "@frostleaf/eslint-config": "workspace:../eslint-config",
     "@frostleaf/tsconfig": "workspace:../tsconfig",
-    "@frostleaf/type": "workspace:../type",
     "@types/node": "17.0.36",
     "@typescript-eslint/eslint-plugin": "5.27.0",
     "@typescript-eslint/parser": "5.27.0",

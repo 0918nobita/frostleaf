@@ -1,4 +1,4 @@
-import { Component } from "@frostleaf/core";
+import { Component } from "frostleaf";
 
 type Props = {
     name: string;
