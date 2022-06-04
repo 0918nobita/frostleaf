@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "@frostleaf/tsconfig",
 
   "compilerOptions": {
     /* このファイルの詳細については、https://aka.ms/tsconfig をご覧ください */

@@ -15,6 +15,7 @@
   "devDependencies": {
     "@frostleaf/cli": "workspace:../cli",
     "@frostleaf/eslint-config": "workspace:../eslint-config",
+    "@frostleaf/tsconfig": "workspace:../tsconfig",
     "@frostleaf/type": "workspace:../type",
     "@types/node": "17.0.36",
     "@typescript-eslint/eslint-plugin": "5.27.0",
