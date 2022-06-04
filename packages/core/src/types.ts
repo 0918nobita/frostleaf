@@ -2,19 +2,19 @@ type EmptyObj = Record<string, never>;
 type AnyObj = Record<string, unknown>;
 
 export type PropsWithChildren<Props> = Props & {
-    children: Element<AnyObj>;
+    children: AnyElement;
 };
 
 export type Component<Props = EmptyObj> = (
     props: Props
-) => Element<AnyObj> | Promise<Element<AnyObj>>;
+) => AnyElement | Promise<AnyElement>;
 
 /** コンポーネントを用いて記述された要素の内部表現 */
 export type ComponentElement<Props = EmptyObj> = {
     type: "component-element";
     component: Component<Props>;
     props: Props;
-    children: Element<AnyObj>[];
+    children: AnyElement[];
 };
 
 /** HTML タグを用いて記述された要素の内部表現 */
@@ -22,14 +22,14 @@ export type FHtmlElement = {
     type: "html-element";
     tag: string;
     attrs: Record<string, string>;
-    children: Element<AnyObj>[];
+    children: AnyElement[];
 };
 
 export const Fragment = "Fragment";
 
 export type FragmentElement = {
     type: typeof Fragment;
-    children: Element<AnyObj>[];
+    children: AnyElement[];
 };
 
 export type Element<Props = EmptyObj> =
@@ -38,6 +38,8 @@ export type Element<Props = EmptyObj> =
     | ComponentElement<Props>
     | FragmentElement;
 
+type AnyElement = Element<AnyObj>;
+
 export type Page = (_: {
     query: { [_: string]: string | undefined };
-}) => Element<AnyObj> | Promise<Element<AnyObj>>;
+}) => AnyElement | Promise<AnyElement>;
