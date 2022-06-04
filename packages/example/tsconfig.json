@@ -7,9 +7,5 @@
     "jsxImportSource": "frostleaf"
   },
 
-  "include": [
-    "frostleaf-env.d.ts",
-    "components",
-    "pages"
-  ]
+  "include": ["frostleaf-env.d.ts", "components", "pages"]
 }
