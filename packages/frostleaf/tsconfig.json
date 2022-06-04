@@ -3,5 +3,10 @@
 
   "compilerOptions": {
     /* このファイルの詳細については、https://aka.ms/tsconfig をご覧ください */
-  }
+    "noEmit": false,
+    "outDir": "dist",
+    "declaration": true
+  },
+
+  "include": ["src"]
 }

@@ -15,7 +15,7 @@ export const bundlePages = async ({ bundleJs, entryPointTs }: Args) => {
         bundle: true,
         outfile: bundleJs,
         format: "cjs",
-        external: ["@frostleaf/core"],
+        external: ["frostleaf"],
         plugins: [esbuildPluginReactJsx],
     });
 };
