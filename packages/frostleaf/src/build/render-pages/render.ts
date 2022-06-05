@@ -4,7 +4,7 @@ import {
     FHtmlElement,
     Fragment,
     FragmentElement,
-} from "./types";
+} from "../../types";
 
 const voidElements: readonly string[] = [
     "area",

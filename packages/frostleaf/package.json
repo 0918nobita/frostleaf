@@ -2,6 +2,7 @@
   "private": true,
   "name": "frostleaf",
   "version": "0.1.0",
+  "types": "index.d.ts",
   "scripts": {
     "check": "tsc --noEmit",
     "build": "tsc",
@@ -12,7 +13,8 @@
   "files": [
     "global.d.ts",
     "jsx-runtime.d.ts",
-    "jsx-runtime.js"
+    "jsx-runtime.js",
+    "types.d.ts"
   ],
   "bin": {
     "frostleaf": "./bin/frostleaf.js"

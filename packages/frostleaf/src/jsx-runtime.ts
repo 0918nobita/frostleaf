@@ -1,13 +1,13 @@
-export { Fragment } from "./core";
+export { Fragment } from "./types";
 
-import { Component, Element, Fragment } from "./core";
+import { Component, Element, Fragment } from "./types";
 
 type AnyObj = Record<string, unknown>;
 
 type PropsWithChild<Props> = Props & { children?: Element<AnyObj> };
 
 export const jsx = <Props>(
-    tagOrComponent: string | Component<Props> | typeof Fragment,
+    tagOrComponent: string | Component<Props> | Fragment,
     props: PropsWithChild<Props>
 ): Element<Props> => {
     if (tagOrComponent === Fragment)

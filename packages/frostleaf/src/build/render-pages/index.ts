@@ -1,9 +1,10 @@
-import { Element, render } from "../core";
 import fs from "fs/promises";
 import path from "path";
 
-import { DestDir, OutDir } from "./path";
-import { prepareCleanDir } from "./prepare-clean-dir";
+import { DestDir, OutDir } from "../path";
+import { prepareCleanDir } from "../prepare-clean-dir";
+import { Element } from "../../types";
+import { render } from "./render";
 
 type Args = {
     destDir: DestDir.DestDir;

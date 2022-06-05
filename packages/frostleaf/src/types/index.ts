@@ -1,3 +1,7 @@
+export { Fragment } from "./fragment";
+
+import type { Fragment } from "./fragment";
+
 type EmptyObj = Record<string, never>;
 type AnyObj = Record<string, unknown>;
 
@@ -24,8 +28,6 @@ export type FHtmlElement = {
     attrs: Record<string, string>;
     children: AnyElement[];
 };
-
-export const Fragment = "Fragment";
 
 export type FragmentElement = {
     type: typeof Fragment;

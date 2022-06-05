@@ -8,5 +8,5 @@
     "declaration": true
   },
 
-  "include": ["src"]
+  "exclude": ["dist", "./*.d.ts"]
 }

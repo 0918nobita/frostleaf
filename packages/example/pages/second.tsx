@@ -1,4 +1,4 @@
-import { Page } from "frostleaf";
+import { Page } from "frostleaf/types";
 
 const SecondPage: Page = () => <p>Example</p>;
 

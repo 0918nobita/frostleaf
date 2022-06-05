@@ -1,4 +1,4 @@
-import { Page } from "frostleaf";
+import { Page } from "frostleaf/types";
 
 import Hello from "../components/Hello";
 import World from "../components/World";

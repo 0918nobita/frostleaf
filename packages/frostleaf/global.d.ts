@@ -1,4 +1,4 @@
-import { Component, Element as E } from "@frostleaf/core";
+import { Component, Element as E } from "./dist/types";
 
 type AnyObj = Record<string, unknown>;
 type AnyElement = E<AnyObj>;
