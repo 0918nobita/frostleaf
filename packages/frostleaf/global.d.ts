@@ -12,6 +12,7 @@ declare global {
             p: {
                 id?: string;
             };
+            title: {};
         };
 
         type ElementClass = Component<Record<string, unknown>>;

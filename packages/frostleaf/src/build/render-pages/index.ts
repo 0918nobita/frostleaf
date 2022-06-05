@@ -8,7 +8,7 @@ import { render } from "./render";
 
 type Args = {
     destDir: DestDir.DestDir;
-    pages: { [_ in string]?: unknown };
+    pages: { [_ in string]: unknown };
 };
 
 export const renderPages = async ({ destDir, pages }: Args) => {

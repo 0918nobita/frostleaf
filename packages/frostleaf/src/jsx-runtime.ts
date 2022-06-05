@@ -2,9 +2,8 @@ export { Fragment } from "./types";
 
 import { Component, Element, Fragment } from "./types";
 
-type AnyObj = Record<string, unknown>;
-
-type PropsWithChild<Props> = Props & { children?: Element<AnyObj> };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type PropsWithChild<Props> = Props & { children?: Element<any> };
 
 export const jsx = <Props>(
     tagOrComponent: string | Component<Props> | Fragment,
@@ -37,16 +36,17 @@ export const jsx = <Props>(
 
     return {
         type: "component-element",
-        component: tagOrComponent,
+        component: tagOrComponent as Component<Omit<Props, "children">>,
         props,
         children: props.children ? [props.children] : [],
     };
 };
 
-type PropsWithChildren<Props> = Props & { children: Element<AnyObj>[] };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type PropsWithChildren<Props> = Props & { children: Element<any>[] };
 
 export const jsxs = <Props>(
-    tagOrComponent: string | Component<Props> | typeof Fragment,
+    tagOrComponent: string | Component<Props> | Fragment,
     props: PropsWithChildren<Props>
 ): Element<Props> => {
     if (tagOrComponent === Fragment)
@@ -76,7 +76,7 @@ export const jsxs = <Props>(
 
     return {
         type: "component-element",
-        component: tagOrComponent,
+        component: tagOrComponent as Component<Omit<Props, "children">>,
         props,
         children: props.children || [],
     };

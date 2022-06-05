@@ -2,19 +2,17 @@ export { Fragment } from "./fragment";
 
 import type { Fragment } from "./fragment";
 
-type EmptyObj = Record<string, never>;
-type AnyObj = Record<string, unknown>;
-
 export type PropsWithChildren<Props> = Props & {
-    children: AnyElement;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    children: Element<any>[];
 };
 
-export type Component<Props = EmptyObj> = (
+export type Component<Props = Record<string, never>> = (
     props: Props
 ) => AnyElement | Promise<AnyElement>;
 
 /** コンポーネントを用いて記述された要素の内部表現 */
-export type ComponentElement<Props = EmptyObj> = {
+export type ComponentElement<Props = Record<string, never>> = {
     type: "component-element";
     component: Component<Props>;
     props: Props;
@@ -34,14 +32,13 @@ export type FragmentElement = {
     children: AnyElement[];
 };
 
-export type Element<Props = EmptyObj> =
+export type Element<Props> =
     | string
     | FHtmlElement
     | ComponentElement<Props>
     | FragmentElement;
 
-type AnyElement = Element<AnyObj>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyElement = Element<any>;
 
-export type Page = (_: {
-    query: { [_: string]: string | undefined };
-}) => AnyElement | Promise<AnyElement>;
+export type Page = (_: { Head: Component }) => AnyElement | Promise<AnyElement>;
