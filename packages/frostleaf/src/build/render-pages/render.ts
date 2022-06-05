@@ -6,6 +6,17 @@ import {
     FragmentElement,
 } from "../../types";
 
+const renderChildren = async (
+    children: Element<any>[]
+): Promise<[string, string[]]> => {
+    const renderResults = await Promise.all(children.map(render));
+    const renderedChildren = renderResults.map(([html]) => html).join("");
+    const scripts = [
+        ...new Set(renderResults.map(([, scripts]) => scripts).flat()),
+    ];
+    return [renderedChildren, scripts];
+};
+
 const voidElements: readonly string[] = [
     "area",
     "base",
@@ -27,7 +38,7 @@ const voidElements: readonly string[] = [
 
 const renderHtmlElement = async (
     htmlElement: FHtmlElement
-): Promise<string> => {
+): Promise<[string, string[]]> => {
     const { tag, attrs, children } = htmlElement;
 
     const attrFragments = Object.keys(attrs).map(
@@ -39,33 +50,44 @@ const renderHtmlElement = async (
     if (voidElements.includes(tag)) {
         if (children.length != 0)
             throw new Error(`Void element ${tag} cannot have children`);
-        return `<${tag}${renderedAttrs}>`;
+        return [`<${tag}${renderedAttrs}>`, []];
     }
 
-    if (children.length === 0) return `<${tag}${renderedAttrs}></${tag}>`;
+    if (children.length === 0) return [`<${tag}${renderedAttrs}></${tag}>`, []];
 
-    const renderedChildren = (await Promise.all(children.map(render))).join("");
-
-    return `<${tag}${renderedAttrs}>${renderedChildren}</${tag}>`;
+    const [renderedChildren, scripts] = await renderChildren(children);
+    return [`<${tag}${renderedAttrs}>${renderedChildren}</${tag}>`, scripts];
 };
 
 const renderComponentElement = async (
     componentElement: ComponentElement<Record<string, unknown>>
-): Promise<string> => {
+): Promise<[string, string[]]> => {
     const { component, props, children } = componentElement;
     const content = await component({ ...props, children });
+    if (Array.isArray(content)) {
+        const [element, scripts] = content;
+        const [renderResult, childScripts] = await render(element);
+        return [renderResult, [...scripts, ...childScripts]];
+    }
     return await render(content);
 };
 
-const renderFragmentElement = async (fragment: FragmentElement) => {
+const renderFragmentElement = async (
+    fragment: FragmentElement
+): Promise<[string, string[]]> => {
     const { children } = fragment;
-    return (await Promise.all(children.map(render))).join("");
+    const renderResults = await Promise.all(children.map(render));
+    const renderedChildren = renderResults.map(([html]) => html).join("");
+    const scripts = [
+        ...new Set(renderResults.map(([, scripts]) => scripts).flat()),
+    ];
+    return [renderedChildren, scripts];
 };
 
 export const render = async (
-    element: Element<Record<string, unknown>>
-): Promise<string> => {
-    if (typeof element === "string") return element;
+    element: Element<any>
+): Promise<[string, string[]]> => {
+    if (typeof element === "string") return [element, []];
 
     if (element.type === "html-element")
         return await renderHtmlElement(element);

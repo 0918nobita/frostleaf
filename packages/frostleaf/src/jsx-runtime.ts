@@ -36,7 +36,7 @@ export const jsx = <Props>(
 
     return {
         type: "component-element",
-        component: tagOrComponent as Component<Omit<Props, "children">>,
+        component: tagOrComponent,
         props,
         children: props.children ? [props.children] : [],
     };
@@ -76,7 +76,7 @@ export const jsxs = <Props>(
 
     return {
         type: "component-element",
-        component: tagOrComponent as Component<Omit<Props, "children">>,
+        component: tagOrComponent,
         props,
         children: props.children || [],
     };

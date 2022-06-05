@@ -7,12 +7,17 @@ export type PropsWithChildren<Props> = Props & {
     children: Element<any>[];
 };
 
-export type Component<Props = Record<string, never>> = (
+// FIXME
+export type Component<Props> = (
     props: Props
-) => AnyElement | Promise<AnyElement>;
+) =>
+    | AnyElement
+    | [AnyElement, string[]]
+    | Promise<AnyElement>
+    | Promise<[AnyElement, string[]]>;
 
 /** コンポーネントを用いて記述された要素の内部表現 */
-export type ComponentElement<Props = Record<string, never>> = {
+export type ComponentElement<Props> = {
     type: "component-element";
     component: Component<Props>;
     props: Props;
@@ -41,4 +46,9 @@ export type Element<Props> =
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyElement = Element<any>;
 
-export type Page = (_: { Head: Component }) => AnyElement | Promise<AnyElement>;
+// FIXME
+export type Page = () =>
+    | AnyElement
+    | [AnyElement, string[]]
+    | Promise<AnyElement>
+    | Promise<[AnyElement, string[]]>;

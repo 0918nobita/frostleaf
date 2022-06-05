@@ -22,7 +22,11 @@ export const getPageDefPaths = async (
     try {
         const files = await fs.readdir(pagesDir);
         return files
-            .filter((p) => p.endsWith(".ts") || p.endsWith(".tsx"))
+            .filter(
+                (p) =>
+                    (p.endsWith(".ts") || p.endsWith(".tsx")) &&
+                    !p.endsWith(".client.ts")
+            )
             .map((p) => [
                 path.parse(p).name,
                 path.join(pagesDir, p),
