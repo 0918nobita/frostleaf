@@ -1,46 +1,73 @@
 export type ADTValue<
-    TEnum extends symbol,
-    TDef extends { [_ in keyof TDef]: unknown[] },
-    TVariant extends keyof TDef = keyof TDef
-> = { enum: TEnum; variant: TVariant; params: TDef[TVariant] };
+    TDef extends {
+        tag: TEnum;
+        variants: { [_ in keyof TDef["variants"]]: unknown[] };
+    },
+    TVariant extends keyof TDef["variants"] = keyof TDef["variants"],
+    TEnum extends symbol = TDef["tag"]
+> = { enumTag: TEnum; variant: TVariant; params: TDef["variants"][TVariant] };
 
 export type MakeVariant<
-    TEnum extends symbol,
-    TDef extends { [_ in keyof TDef]: unknown[] }
-> = <TVariant extends keyof TDef>(
+    TDef extends {
+        tag: TEnum;
+        variants: { [_ in keyof TDef["variants"]]: unknown[] };
+    },
+    TEnum extends symbol = TDef["tag"]
+> = <TVariant extends keyof TDef["variants"]>(
     variant: TVariant,
-    ...params: TDef[TVariant]
-) => ADTValue<TEnum, TDef, TVariant>;
+    ...params: TDef["variants"][TVariant]
+) => ADTValue<TDef, TVariant, TEnum>;
 
 export const variant =
-    <TEnum extends symbol, TDef extends { [_ in keyof TDef]: unknown[] }>(
-        e: TEnum
-    ): MakeVariant<TEnum, TDef> =>
-    <TVariant extends keyof TDef>(
+    <
+        TDef extends {
+            tag: TEnum;
+            variants: { [_ in keyof TDef["variants"]]: unknown[] };
+        },
+        TEnum extends symbol = TDef["tag"]
+    >(
+        enumTag: TEnum
+    ): MakeVariant<TDef, TEnum> =>
+    <TVariant extends keyof TDef["variants"]>(
         variant: TVariant,
-        ...params: TDef[TVariant]
-    ) => ({ enum: e, variant, params });
+        ...params: TDef["variants"][TVariant]
+    ) => ({ enumTag, variant, params });
 
 export type Match<
-    TEnum extends symbol,
-    TDef extends { [_ in keyof TDef]: unknown[] }
-> = <TVariant extends keyof TDef, TOut>(
-    value: ADTValue<TEnum, TDef, TVariant>,
-    matchers: { [V in keyof TDef]: (...params: TDef[V]) => TOut }
+    TDef extends {
+        tag: TEnum;
+        variants: { [_ in keyof TDef["variants"]]: unknown[] };
+    },
+    TEnum extends symbol = TDef["tag"]
+> = <TVariant extends keyof TDef["variants"], TOut>(
+    value: ADTValue<TDef, TVariant, TEnum>,
+    matchers: {
+        [V in keyof TDef["variants"]]: (...params: TDef["variants"][V]) => TOut;
+    }
 ) => TOut;
 
 export const match =
-    <TEnum extends symbol, TDef extends { [_ in keyof TDef]: unknown[] }>(
-        e: TEnum
-    ): Match<TEnum, TDef> =>
-    <TVariant extends keyof TDef, TOut>(
-        value: ADTValue<TEnum, TDef, TVariant>,
-        matchers: { [V in keyof TDef]: (...params: TDef[V]) => TOut }
+    <
+        TDef extends {
+            tag: TEnum;
+            variants: { [_ in keyof TDef["variants"]]: unknown[] };
+        },
+        TEnum extends symbol = TDef["tag"]
+    >(
+        enumTag: TEnum
+    ): Match<TDef, TEnum> =>
+    <TVariant extends keyof TDef["variants"], TOut>(
+        value: ADTValue<TDef, TVariant, TEnum>,
+        matchers: {
+            [V in keyof TDef["variants"]]: (
+                ...params: TDef["variants"][V]
+            ) => TOut;
+        }
     ) => {
-        if (value.enum !== e)
+        if (value.enumTag !== enumTag)
             throw new Error(
-                `Invalid enum (Expected: ${String(e)}, Actual: ${String(
-                    value.enum
+                `Invalid enum (Expected: ${String(enumTag)}, Actual: ${String(
+                    value.enumTag
                 )})`
             );
         return matchers[value.variant](...value.params);
