@@ -1,7 +1,7 @@
 const baseConfig = require("@frostleaf/eslint-config");
 
 /** @type {import("eslint").Linter.Config} */
-module.exports = ({
+module.exports = {
     ...baseConfig,
 
     ignorePatterns: ["dist"],
@@ -26,4 +26,4 @@ module.exports = ({
             },
         },
     ],
-});
+};
