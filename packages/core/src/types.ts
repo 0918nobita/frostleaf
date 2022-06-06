@@ -2,7 +2,7 @@ import { ADTValue, match, variant } from "./adt";
 
 type AnyObj = Record<string, unknown>;
 
-type ScriptPath = string;
+export type ScriptPath = string;
 
 type Component<Props> = (props: Props) => ComponentReturn;
 
@@ -45,7 +45,7 @@ type ElementADT<Props> = {
     };
 };
 
-type Element<Props> = ADTValue<ElementADT<Props>>;
+export type Element<Props> = ADTValue<ElementADT<Props>>;
 
 export const element = <Props>() => variant<ElementADT<Props>>("Element");
 

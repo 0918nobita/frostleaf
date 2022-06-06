@@ -39,7 +39,7 @@ export type Match<
         variants: { [_ in keyof TDef["variants"]]: unknown[] };
     },
     TEnum = TDef["tag"]
-> = <TVariant extends keyof TDef["variants"], TOut>(
+> = <TOut, TVariant extends keyof TDef["variants"] = keyof TDef["variants"]>(
     value: ADTValue<TDef, TVariant, TEnum>,
     matchers: {
         [V in keyof TDef["variants"]]: (...params: TDef["variants"][V]) => TOut;

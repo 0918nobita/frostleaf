@@ -1,12 +1,25 @@
-import { componentReturn, element } from "./types";
+import { Element, element, matchElement, ScriptPath } from "./types";
 
-const foo = componentReturn(
-    "element",
-    element()("htmlElement", {
-        tag: "p",
-        attrs: {},
-        children: [element()("text", "Hello, world!")],
-    })
-);
+type AnyObj = Record<string, unknown>;
 
-console.dir(foo, { depth: null });
+type Html = string;
+
+const render = async (
+    element: Element<AnyObj>
+): Promise<[Html, ScriptPath[]]> =>
+    matchElement<AnyObj>()<Promise<[Html, ScriptPath[]]>>(element, {
+        text: (text) => Promise.resolve([text, []]),
+        htmlElement: () => {
+            throw new Error("Not implemented");
+        },
+        componentElement: () => {
+            throw new Error("Not implemented");
+        },
+        fragmentElement: () => {
+            throw new Error("Not implemented");
+        },
+    });
+
+const htmlElement = element()("text", "Hello, world!");
+
+void render(htmlElement).then(console.log);
