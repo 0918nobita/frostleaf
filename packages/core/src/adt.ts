@@ -4,7 +4,7 @@ export type ADTValue<
         variants: { [_ in keyof TDef["variants"]]: unknown[] };
     },
     TVariant extends keyof TDef["variants"] = keyof TDef["variants"],
-    TEnum extends symbol = TDef["tag"]
+    TEnum = TDef["tag"]
 > = { enumTag: TEnum; variant: TVariant; params: TDef["variants"][TVariant] };
 
 export type MakeVariant<
@@ -12,7 +12,7 @@ export type MakeVariant<
         tag: TEnum;
         variants: { [_ in keyof TDef["variants"]]: unknown[] };
     },
-    TEnum extends symbol = TDef["tag"]
+    TEnum = TDef["tag"]
 > = <TVariant extends keyof TDef["variants"]>(
     variant: TVariant,
     ...params: TDef["variants"][TVariant]
@@ -24,7 +24,7 @@ export const variant =
             tag: TEnum;
             variants: { [_ in keyof TDef["variants"]]: unknown[] };
         },
-        TEnum extends symbol = TDef["tag"]
+        TEnum = TDef["tag"]
     >(
         enumTag: TEnum
     ): MakeVariant<TDef, TEnum> =>
@@ -38,7 +38,7 @@ export type Match<
         tag: TEnum;
         variants: { [_ in keyof TDef["variants"]]: unknown[] };
     },
-    TEnum extends symbol = TDef["tag"]
+    TEnum = TDef["tag"]
 > = <TVariant extends keyof TDef["variants"], TOut>(
     value: ADTValue<TDef, TVariant, TEnum>,
     matchers: {
@@ -52,7 +52,7 @@ export const match =
             tag: TEnum;
             variants: { [_ in keyof TDef["variants"]]: unknown[] };
         },
-        TEnum extends symbol = TDef["tag"]
+        TEnum = TDef["tag"]
     >(
         enumTag: TEnum
     ): Match<TDef, TEnum> =>
