@@ -6,7 +6,8 @@
     "build": "tsc",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "test": "jest"
   },
   "devDependencies": {
     "@frostleaf/eslint-config": "workspace:../eslint-config",
