@@ -21,7 +21,7 @@ export const componentReturn = componentReturnADT.variant;
 
 export const matchComponentReturn = componentReturnADT.match;
 
-type ElementDesc<Props> = {
+export type ElementDesc<Props> = {
     text: string;
     htmlElement: {
         tag: string;
