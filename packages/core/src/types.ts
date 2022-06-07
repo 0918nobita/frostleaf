@@ -1,4 +1,4 @@
-import { ADTValue, match, variant } from "./adt";
+import { adt, genericADT, TypeOf } from "./adt";
 
 type AnyObj = Record<string, unknown>;
 
@@ -6,47 +6,46 @@ export type ScriptPath = string;
 
 type Component<Props> = (props: Props) => ComponentReturn;
 
-type ComponentReturnADT = {
-    tag: "ComponentReturn";
-    variants: {
-        element: [Element<AnyObj>];
-        elementWithScripts: [Element<AnyObj>, ScriptPath[]];
-        promiseElement: [Promise<Element<AnyObj>>];
-        promiseElementWithScripts: [Promise<[Element<AnyObj>, ScriptPath[]]>];
-    };
+type ComponentReturnDesc = {
+    element: Element<AnyObj>;
+    elementWithScripts: [Element<AnyObj>, ScriptPath[]];
+    promiseElement: Promise<Element<AnyObj>>;
+    promiseElementWithScripts: Promise<[Element<AnyObj>, ScriptPath[]]>;
 };
 
-type ComponentReturn = ADTValue<ComponentReturnADT>;
+export type ComponentReturn = TypeOf<ComponentReturnDesc>;
 
-export const componentReturn = variant<ComponentReturnADT>("ComponentReturn");
+const componentReturnADT = adt<ComponentReturnDesc>();
 
-export const matchComponentReturn =
-    match<ComponentReturnADT>("ComponentReturn");
+export const componentReturn = componentReturnADT.variant;
 
-type ElementADT<Props> = {
-    tag: "Element";
-    variants: {
-        text: [string];
-        htmlElement: [
-            {
-                tag: string;
-                attrs: Record<string, string>;
-                children: Element<AnyObj>[];
-            }
-        ];
-        componentElement: [
-            {
-                component: Component<Props>;
-                props: Props;
-                children: Element<AnyObj>;
-            }
-        ];
-        fragmentElement: [Element<AnyObj>[]];
+export const matchComponentReturn = componentReturnADT.match;
+
+type ElementDesc<Props> = {
+    text: string;
+    htmlElement: {
+        tag: string;
+        attrs: Record<string, string>;
+        children: Element<AnyObj>[];
     };
+    componentElement: {
+        component: Component<Props>;
+        props: Props;
+        children: Element<AnyObj>;
+    };
+    fragmentElement: Element<AnyObj>[];
 };
 
-export type Element<Props> = ADTValue<ElementADT<Props>>;
+declare module "./hkt" {
+    interface HKT<T> {
+        ElementDesc: ElementDesc<T>;
+    }
+}
 
-export const element = <Props>() => variant<ElementADT<Props>>("Element");
+export type Element<Props> = TypeOf<ElementDesc<Props>>;
 
-export const matchElement = <Props>() => match<ElementADT<Props>>("Element");
+const elementADT = genericADT("ElementDesc");
+
+export const element = elementADT.makeVariantFn<AnyObj>();
+
+export const matchElement = elementADT.makeMatchFn<AnyObj>();

@@ -1,74 +1,40 @@
-export type ADTValue<
-    TDef extends {
-        tag: TEnum;
-        variants: { [_ in keyof TDef["variants"]]: unknown[] };
-    },
-    TVariant extends keyof TDef["variants"] = keyof TDef["variants"],
-    TEnum = TDef["tag"]
-> = { enumTag: TEnum; variant: TVariant; params: TDef["variants"][TVariant] };
+import { HKT } from "./hkt";
 
-export type MakeVariant<
-    TDef extends {
-        tag: TEnum;
-        variants: { [_ in keyof TDef["variants"]]: unknown[] };
-    },
-    TEnum = TDef["tag"]
-> = <TVariant extends keyof TDef["variants"]>(
-    variant: TVariant,
-    ...params: TDef["variants"][TVariant]
-) => ADTValue<TDef, TVariant, TEnum>;
+export type TypeOf<TDesc> = {
+    [V in keyof TDesc]: { tag: V; params: TDesc[V] };
+}[keyof TDesc];
 
-export const variant =
-    <
-        TDef extends {
-            tag: TEnum;
-            variants: { [_ in keyof TDef["variants"]]: unknown[] };
-        },
-        TEnum = TDef["tag"]
-    >(
-        enumTag: TEnum
-    ): MakeVariant<TDef, TEnum> =>
-    <TVariant extends keyof TDef["variants"]>(
-        variant: TVariant,
-        ...params: TDef["variants"][TVariant]
-    ) => ({ enumTag, variant, params });
+type Matchers<TDesc, TOut> = { [V in keyof TDesc]: (params: TDesc[V]) => TOut };
 
-export type Match<
-    TDef extends {
-        tag: TEnum;
-        variants: { [_ in keyof TDef["variants"]]: unknown[] };
-    },
-    TEnum = TDef["tag"]
-> = <TOut, TVariant extends keyof TDef["variants"] = keyof TDef["variants"]>(
-    value: ADTValue<TDef, TVariant, TEnum>,
-    matchers: {
-        [V in keyof TDef["variants"]]: (...params: TDef["variants"][V]) => TOut;
-    }
-) => TOut;
+export const adt = <TDesc>() => ({
+    variant: <TVariant extends keyof TDesc>(
+        tag: TVariant,
+        params: TDesc[TVariant]
+    ): TypeOf<TDesc> => ({
+        tag,
+        params,
+    }),
 
-export const match =
-    <
-        TDef extends {
-            tag: TEnum;
-            variants: { [_ in keyof TDef["variants"]]: unknown[] };
-        },
-        TEnum = TDef["tag"]
-    >(
-        enumTag: TEnum
-    ): Match<TDef, TEnum> =>
-    <TVariant extends keyof TDef["variants"], TOut>(
-        value: ADTValue<TDef, TVariant, TEnum>,
-        matchers: {
-            [V in keyof TDef["variants"]]: (
-                ...params: TDef["variants"][V]
-            ) => TOut;
-        }
-    ) => {
-        if (value.enumTag !== enumTag)
-            throw new Error(
-                `Invalid enum (Expected: ${String(enumTag)}, Actual: ${String(
-                    value.enumTag
-                )})`
-            );
-        return matchers[value.variant](...value.params);
-    };
+    match: <TOut>(
+        value: TypeOf<TDesc>,
+        matchers: Matchers<TDesc, TOut>
+    ): TOut => matchers[value.tag](value.params),
+});
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const genericADT = <URI extends keyof HKT<unknown>>(_uri: URI) => ({
+    makeVariantFn:
+        <A>() =>
+        <TVariant extends keyof HKT<A>[URI]>(
+            variant: TVariant,
+            params: HKT<A>[URI][TVariant]
+        ): TypeOf<HKT<A>[URI]> => ({ tag: variant, params }),
+
+    makeMatchFn:
+        <A>() =>
+        <TOut>(
+            value: TypeOf<HKT<A>[URI]>,
+            matchers: Matchers<HKT<A>[URI], TOut>
+        ): TOut =>
+            matchers[value.tag](value.params),
+});
