@@ -1,40 +1,66 @@
-import { HKT } from "./hkt";
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface Descriptor {}
 
-export type TypeOf<TDesc> = {
-    [V in keyof TDesc]: { tag: V; params: TDesc[V] };
-}[keyof TDesc];
+export type TypeOf<DescID extends keyof Descriptor> = {
+    [V in keyof Descriptor[DescID]]: { tag: V; params: Descriptor[DescID][V] };
+}[keyof Descriptor[DescID]] & { _type: DescID };
 
-type Matchers<TDesc, TOut> = { [V in keyof TDesc]: (params: TDesc[V]) => TOut };
+type Matchers<DescID extends keyof Descriptor, TOut> = {
+    [V in keyof Descriptor[DescID]]: (params: Descriptor[DescID][V]) => TOut;
+};
 
-export const adt = <TDesc>() => ({
-    variant: <TVariant extends keyof TDesc>(
+export const adt = <DescID extends keyof Descriptor>(_type: DescID) => ({
+    variant: <TVariant extends keyof Descriptor[DescID]>(
         tag: TVariant,
-        params: TDesc[TVariant]
-    ): TypeOf<TDesc> => ({
+        params: Descriptor[DescID][TVariant]
+    ): TypeOf<DescID> => ({
+        _type,
         tag,
         params,
     }),
 
     match: <TOut>(
-        value: TypeOf<TDesc>,
-        matchers: Matchers<TDesc, TOut>
+        value: TypeOf<DescID>,
+        matchers: Matchers<DescID, TOut>
     ): TOut => matchers[value.tag](value.params),
 });
 
+//eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/no-unused-vars
+export interface Descriptor1<A> {}
+
+export type TypeOf1<DescID extends keyof Descriptor1<A>, A> = {
+    [V in keyof Descriptor1<A>[DescID]]: {
+        tag: V;
+        params: Descriptor1<A>[DescID][V];
+    };
+}[keyof Descriptor1<A>[DescID]] & { _type: DescID };
+
+type Matchers1<DescID extends keyof Descriptor1<A>, A, TOut> = {
+    [V in keyof Descriptor1<A>[DescID]]: (
+        params: Descriptor1<A>[DescID][V]
+    ) => TOut;
+};
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const genericADT = <URI extends keyof HKT<unknown>>(_uri: URI) => ({
+export const genericADT = <DescID extends keyof Descriptor1<unknown>>(
+    _type: DescID
+) => ({
     makeVariantFn:
         <A>() =>
-        <TVariant extends keyof HKT<A>[URI]>(
+        <TVariant extends keyof Descriptor1<A>[DescID]>(
             variant: TVariant,
-            params: HKT<A>[URI][TVariant]
-        ): TypeOf<HKT<A>[URI]> => ({ tag: variant, params }),
+            params: Descriptor1<A>[DescID][TVariant]
+        ): TypeOf1<DescID, A> => ({
+            _type,
+            tag: variant,
+            params,
+        }),
 
     makeMatchFn:
         <A>() =>
         <TOut>(
-            value: TypeOf<HKT<A>[URI]>,
-            matchers: Matchers<HKT<A>[URI], TOut>
+            value: TypeOf1<DescID, A>,
+            matchers: Matchers1<DescID, A, TOut>
         ): TOut =>
             matchers[value.tag](value.params),
 });

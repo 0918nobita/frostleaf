@@ -1,4 +1,4 @@
-import { adt, genericADT, TypeOf } from "./adt";
+import { adt, genericADT, TypeOf, TypeOf1 } from "./adt";
 
 type AnyObj = Record<string, unknown>;
 
@@ -13,9 +13,19 @@ type ComponentReturnDesc = {
     promiseElementWithScripts: Promise<[Element<AnyObj>, ScriptPath[]]>;
 };
 
-export type ComponentReturn = TypeOf<ComponentReturnDesc>;
+declare module "./adt" {
+    interface Descriptor {
+        ComponentReturn: ComponentReturnDesc;
+    }
 
-const componentReturnADT = adt<ComponentReturnDesc>();
+    interface Descriptor1<A> {
+        ElementDesc: ElementDesc<A>;
+    }
+}
+
+export type ComponentReturn = TypeOf<"ComponentReturn">;
+
+const componentReturnADT = adt("ComponentReturn");
 
 export const componentReturn = componentReturnADT.variant;
 
@@ -36,13 +46,7 @@ export type ElementDesc<Props> = {
     fragmentElement: Element<AnyObj>[];
 };
 
-declare module "./hkt" {
-    interface HKT<T> {
-        ElementDesc: ElementDesc<T>;
-    }
-}
-
-export type Element<Props> = TypeOf<ElementDesc<Props>>;
+export type Element<Props> = TypeOf1<"ElementDesc", Props>;
 
 const elementADT = genericADT("ElementDesc");
 

@@ -8,8 +8,5 @@
     "declaration": true
   },
 
-  "exclude": [
-    "dist",
-    "**/*.spec.ts",
-  ]
+  "exclude": ["dist", "**/*.spec.ts"]
 }

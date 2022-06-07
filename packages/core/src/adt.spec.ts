@@ -1,28 +1,39 @@
 import { adt, genericADT } from "./adt";
 
+type MyTypeDescriptor = {
+    foo: number;
+    bar: [string, number];
+};
+
 type MyGenericTypeDescriptor<T> = {
     foo: number;
     bar: [string, T];
 };
 
-declare module "./hkt" {
-    interface HKT<T> {
-        MyGenericTypeDescriptor: MyGenericTypeDescriptor<T>;
+declare module "./adt" {
+    interface Descriptor {
+        MyType: MyTypeDescriptor;
+    }
+
+    interface Descriptor1<A> {
+        MyGenericType: MyGenericTypeDescriptor<A>;
     }
 }
 
 describe("ADT", () => {
     test("simple", () => {
-        type MyTypeDescriptor = {
-            foo: number;
-            bar: [string, number];
-        };
-
-        const myADT = adt<MyTypeDescriptor>();
+        const myADT = adt("MyType");
         const variant = myADT.variant;
         const match = myADT.match;
 
-        const actual = match(variant("bar", ["hello", 12]), {
+        const val = variant("bar", ["hello", 12]);
+        expect(val).toEqual({
+            _type: "MyType",
+            tag: "bar",
+            params: ["hello", 12],
+        });
+
+        const actual = match(val, {
             foo: (n) => n,
             bar: ([, n]) => n,
         });
@@ -30,7 +41,7 @@ describe("ADT", () => {
     });
 
     test("generic", () => {
-        const myADT = genericADT("MyGenericTypeDescriptor");
+        const myADT = genericADT("MyGenericType");
 
         const variantNum = myADT.makeVariantFn<number>();
 
