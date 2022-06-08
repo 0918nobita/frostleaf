@@ -1,4 +1,4 @@
-import { adt, genericADT } from "./adt";
+import { adt, genericADT } from ".";
 
 type MyTypeDescriptor = {
     foo: number;
@@ -10,7 +10,7 @@ type MyGenericTypeDescriptor<T> = {
     bar: [string, T];
 };
 
-declare module "./adt" {
+declare module "." {
     interface Descriptor {
         MyType: MyTypeDescriptor;
     }

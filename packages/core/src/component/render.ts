@@ -4,7 +4,7 @@ import {
     matchComponentReturn,
     matchElement,
     ScriptPath,
-} from "./types";
+} from ".";
 
 type AnyObj = Record<string, unknown>;
 

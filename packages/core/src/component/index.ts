@@ -1,4 +1,4 @@
-import { adt, genericADT, TypeOf, TypeOf1 } from "./adt";
+import { adt, genericADT, TypeOf, TypeOf1 } from "../ADT";
 
 type AnyObj = Record<string, unknown>;
 
@@ -13,7 +13,7 @@ type ComponentReturnDesc = {
     promiseElementWithScripts: Promise<[Element<AnyObj>, ScriptPath[]]>;
 };
 
-declare module "./adt" {
+declare module "../adt" {
     interface Descriptor {
         ComponentReturn: ComponentReturnDesc;
     }
