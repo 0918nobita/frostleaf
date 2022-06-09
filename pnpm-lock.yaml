@@ -20,8 +20,9 @@ importers:
       prettier: 2.6.2
       ts-jest: 28.0.4
       typescript: 4.7.3
+      zod: 3.17.3
     dependencies:
-      memfs: 3.4.4
+      zod: 3.17.3
     devDependencies:
       '@frostleaf/eslint-config': link:../eslint-config
       '@frostleaf/tsconfig': link:../tsconfig
@@ -32,6 +33,7 @@ importers:
       eslint: 8.16.0
       eslint-plugin-simple-import-sort: 7.0.0_eslint@8.16.0
       jest: 28.1.1_@types+node@17.0.36
+      memfs: 3.4.4
       prettier: 2.6.2
       ts-jest: 28.0.4_vz6zla63wvofljfl6elifyg77e
       typescript: 4.7.3
@@ -1867,7 +1869,7 @@ packages:
 
   /fs-monkey/1.0.3:
     resolution: {integrity: sha512-cybjIfiiE+pTWicSCLFHSrXZ6EilF30oh91FDP9S2B051prEa7QWfrVTQm10/dDpswBDXZugPa1Ogu8Yh+HV0Q==}
-    dev: false
+    dev: true
 
   /fs.realpath/1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
@@ -2652,7 +2654,7 @@ packages:
     engines: {node: '>= 4.0.0'}
     dependencies:
       fs-monkey: 1.0.3
-    dev: false
+    dev: true
 
   /merge-stream/2.0.0:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}
@@ -3264,3 +3266,7 @@ packages:
       y18n: 5.0.8
       yargs-parser: 21.0.1
     dev: true
+
+  /zod/3.17.3:
+    resolution: {integrity: sha512-4oKP5zvG6GGbMlqBkI5FESOAweldEhSOZ6LI6cG+JzUT7ofj1ZOC0PJudpQOpT1iqOFpYYtX5Pw0+o403y4bcg==}
+    dev: false
