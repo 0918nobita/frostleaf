@@ -1,4 +1,4 @@
-import { adt, genericADT, TypeOf, TypeOf1 } from "../ADT";
+import { adt, genericADT, TypeOf, TypeOf1 } from "../adt";
 
 type AnyObj = Record<string, unknown>;
 

@@ -1,6 +1,6 @@
 import { Volume } from "memfs";
 
-import { ioMemfs } from "./implMemfs";
+import { ioMemfs } from "./impl-memfs";
 
 describe("IO", () => {
     test("memfs", async () => {
