@@ -1,9 +1,12 @@
-import { adt, genericADT } from ".";
+import { z } from "zod";
+import { adt, genericADT, MapSchemaToDesc } from ".";
 
-type MyTypeDescriptor = {
-    foo: number;
-    bar: [string, number];
+const myTypeSchema = {
+    foo: z.number(),
+    bar: z.tuple([z.string(), z.number()]),
 };
+
+type MyTypeDescriptor = MapSchemaToDesc<typeof myTypeSchema>;
 
 type MyGenericTypeDescriptor<T> = {
     foo: number;
@@ -38,6 +41,17 @@ describe("ADT", () => {
             bar: ([, n]) => n,
         });
         expect(actual).toBe(12);
+    });
+
+    test("with validation", () => {
+        const myADT = adt("MyType").withValidation(myTypeSchema);
+        const variant = myADT.variant;
+
+        const val = variant("bar", ["hello", 12]);
+        expect(val).toEqual({
+            kind: "ok",
+            value: ["hello", 12],
+        });
     });
 
     test("generic", () => {

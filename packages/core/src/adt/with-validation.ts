@@ -2,14 +2,6 @@
 
 import { z } from "zod";
 
-export interface Schema {}
-
-// 値コンストラクタ内部でバリデーションに使用するスキーマ
-const schemaForVariant = {
-    foo: z.number(),
-    bar: z.string(),
-};
-
 // match 関数内部でバリデーションに使用するスキーマ
 const schemaForMatch = z.discriminatedUnion("variant", [
     z.object({
@@ -28,3 +20,18 @@ const schemaForMatch = z.discriminatedUnion("variant", [
 type Res =
     | { type: "MyType"; variant: "foo"; params: number }
     | { type: "MyType"; variant: "bar"; params: string };
+
+const schemaForVariant = {
+    type: "MyType",
+    foo: z.number(),
+    bar: z.string(),
+};
+
+interface Descriptor {
+    type: symbol;
+    variants: { [_ in string]?: z.ZodType };
+}
+
+const adt = <Desc extends Descriptor>(desc: Descriptor) => {
+    return <TVariant extends keyof Desc["variants"]>(variant: TVariant) => {};
+};

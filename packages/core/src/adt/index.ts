@@ -1,3 +1,11 @@
+import { z } from "zod";
+
+import { err, ok, Result } from "../result";
+
+export type MapSchemaToDesc<T extends { [_: string]: z.ZodType }> = {
+    [P in keyof T]: z.infer<T[P]>;
+};
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface Descriptor {}
 
@@ -23,6 +31,20 @@ export const adt = <DescID extends keyof Descriptor>(_type: DescID) => ({
         value: TypeOf<DescID>,
         matchers: Matchers<DescID, TOut>
     ): TOut => matchers[value.tag](value.params),
+
+    withValidation: (schema: {
+        [_ in keyof Descriptor[DescID]]: z.ZodType;
+    }) => ({
+        variant: <TVariant extends keyof Descriptor[DescID]>(
+            tag: TVariant,
+            params: Descriptor[DescID][TVariant]
+        ): Result<TypeOf<DescID>, unknown> => {
+            const parseResult = schema[tag].safeParse(params);
+            return parseResult.success
+                ? ok(parseResult.data)
+                : err(parseResult.error);
+        },
+    }),
 });
 
 //eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/no-unused-vars
