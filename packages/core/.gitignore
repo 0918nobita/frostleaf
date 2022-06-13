@@ -1,1 +1,5 @@
+.fable
+bin
 dist
+obj
+*.fs.js
