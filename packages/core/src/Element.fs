@@ -35,6 +35,20 @@ type HtmlElement =
                         return $"<%s{tag}%s{renderedAttrs}>%s{renderedChildren}</%s{tag}>"
                     }
 
+type ComponentElement<'Props> =
+    | ComponentElement of renderElement: ('Props * list<IElement> -> Async<IElement>) * props: 'Props * children: list<IElement>
+
+    interface IElement with
+        member this.Render() =
+            match this with
+            | ComponentElement (renderElement, props, children) ->
+                async {
+                    let! content = renderElement (props, children)
+                    return! content.Render()
+                }
+
 let text = TextElement
 
 let html tag attrs children = HtmlElement (tag, attrs, children)
+
+let componentElement renderElement props children = ComponentElement (renderElement, props, children)

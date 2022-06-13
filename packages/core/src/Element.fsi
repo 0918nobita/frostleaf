@@ -12,6 +12,12 @@ type TextElement =
 type HtmlElement =
     interface IElement
 
+[<Sealed>]
+type ComponentElement<'Props> =
+    interface IElement
+
 val text : string -> TextElement
 
 val html : string -> Map<string, string> -> list<IElement> -> HtmlElement
+
+val componentElement : ('Props * list<IElement> -> Async<IElement>) -> 'Props -> list<IElement> -> ComponentElement<'Props>
