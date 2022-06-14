@@ -27,7 +27,7 @@ type HtmlElement =
                 let renderedAttrs =  if List.isEmpty attrs then "" else attrs |> String.concat " " |> sprintf " %s"
                 if List.contains tag voidElements
                 then
-                    async { return $"<%s{tag}${renderedAttrs}>" }
+                    async { return $"<%s{tag}{renderedAttrs}>" }
                 else
                     async {
                         let! renderedChildren = children |> List.map (fun child -> child.Render()) |> Async.Parallel
@@ -36,14 +36,14 @@ type HtmlElement =
                     }
 
 type ComponentElement<'Props> =
-    | ComponentElement of renderElement: ('Props * list<IElement> -> Async<IElement>) * props: 'Props * children: list<IElement>
+    | ComponentElement of renderElement: ('Props -> list<IElement> -> Async<IElement>) * props: 'Props * children: list<IElement>
 
     interface IElement with
         member this.Render() =
             match this with
             | ComponentElement (renderElement, props, children) ->
                 async {
-                    let! content = renderElement (props, children)
+                    let! content = renderElement props children
                     return! content.Render()
                 }
 

@@ -20,4 +20,4 @@ val text : string -> TextElement
 
 val html : string -> Map<string, string> -> list<IElement> -> HtmlElement
 
-val componentElement : ('Props * list<IElement> -> Async<IElement>) -> 'Props -> list<IElement> -> ComponentElement<'Props>
+val componentElement : ('Props -> list<IElement> -> Async<IElement>) -> 'Props -> list<IElement> -> ComponentElement<'Props>

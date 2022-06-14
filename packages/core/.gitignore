@@ -2,4 +2,5 @@
 bin
 dist
 obj
+TestResults
 *.fs.js
