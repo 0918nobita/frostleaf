@@ -17,7 +17,7 @@ importers:
   packages/example:
     specifiers:
       '@frostleaf/core': workspace:../core
-    devDependencies:
+    dependencies:
       '@frostleaf/core': link:../core
 
   packages/tsconfig:

@@ -1,7 +1,9 @@
 module Frostleaf.Element
 
+open Fable.Core
+
 type IElement =
-    abstract member Render: unit -> Async<string>
+    abstract member Render: unit -> JS.Promise<string>
 
 type TextElement =
     | TextElement of string
@@ -9,10 +11,10 @@ type TextElement =
     interface IElement with
         member this.Render() =
             match this with
-            | TextElement content -> async { return content }
+            | TextElement content -> promise { return content }
 
 type HtmlElement =
-    | HtmlElement of tag: string * attrs: Map<string, string> * children: list<IElement>
+    | HtmlElement of tag: string * attrs: Map<string, string> * children: array<IElement>
 
     interface IElement with
         member this.Render() =
@@ -27,22 +29,22 @@ type HtmlElement =
                 let renderedAttrs =  if List.isEmpty attrs then "" else attrs |> String.concat " " |> sprintf " %s"
                 if List.contains tag voidElements
                 then
-                    async { return $"<%s{tag}{renderedAttrs}>" }
+                    promise { return $"<%s{tag}{renderedAttrs}>" }
                 else
-                    async {
-                        let! renderedChildren = children |> List.map (fun child -> child.Render()) |> Async.Parallel
+                    promise {
+                        let! renderedChildren = children |> Array.map (fun child -> child.Render()) |> Promise.all
                         let renderedChildren = renderedChildren |> String.concat ""
                         return $"<%s{tag}%s{renderedAttrs}>%s{renderedChildren}</%s{tag}>"
                     }
 
 type ComponentElement<'Props> =
-    | ComponentElement of renderElement: ('Props -> list<IElement> -> Async<IElement>) * props: 'Props * children: list<IElement>
+    | ComponentElement of renderElement: ('Props -> array<IElement> -> JS.Promise<IElement>) * props: 'Props * children: array<IElement>
 
     interface IElement with
         member this.Render() =
             match this with
             | ComponentElement (renderElement, props, children) ->
-                async {
+                promise {
                     let! content = renderElement props children
                     return! content.Render()
                 }

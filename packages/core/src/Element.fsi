@@ -1,8 +1,10 @@
 module Frostleaf.Element
 
+open Fable.Core
+
 [<Interface>]
 type IElement =
-    abstract member Render: unit -> Async<string>
+    abstract member Render: unit -> JS.Promise<string>
 
 [<Sealed>]
 type TextElement =
@@ -18,6 +20,6 @@ type ComponentElement<'Props> =
 
 val text : string -> TextElement
 
-val html : string -> Map<string, string> -> list<IElement> -> HtmlElement
+val html : string -> Map<string, string> -> array<IElement> -> HtmlElement
 
-val componentElement : ('Props -> list<IElement> -> Async<IElement>) -> 'Props -> list<IElement> -> ComponentElement<'Props>
+val componentElement : ('Props -> array<IElement> -> JS.Promise<IElement>) -> 'Props -> array<IElement> -> ComponentElement<'Props>

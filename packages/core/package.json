@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "main": "dist/bundle.js",
   "scripts": {
-    "build": "dotnet fable src && esbuild --platform=node --bundle --minify --outfile=dist/bundle.js src/App.fs.js"
+    "build": "dotnet fable src && esbuild --platform=node --bundle --minify --outfile=dist/bundle.js src/entrypoint.js"
   },
   "devDependencies": {
     "esbuild": "0.14.42"
