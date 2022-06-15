@@ -1,10 +1,10 @@
 {
   "name": "@frostleaf/core",
   "version": "0.1.0",
-  "main": "dist/bundle.js",
+  "main": "dist/Frostleaf.Core/entryPoint.js",
   "types": "types/index.d.ts",
   "scripts": {
-    "build": "dotnet fable src/Frostleaf.Core && esbuild --platform=node --bundle --minify --outfile=dist/bundle.js src/entrypoint.js",
+    "build": "node build.js",
     "test": "dotnet fable test && jest"
   },
   "devDependencies": {
