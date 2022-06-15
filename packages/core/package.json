@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "main": "dist/bundle.js",
   "scripts": {
-    "build": "dotnet fable src && esbuild --platform=node --bundle --minify --outfile=dist/bundle.js src/entrypoint.js"
+    "build": "dotnet fable src && esbuild --platform=node --bundle --minify --outfile=dist/bundle.js src/entrypoint.js",
+    "test": "dotnet fable test && esbuild --platform=node --bundle --format=cjs --outfile=test/Tests.fs.cjs test/Tests.fs.js && jest"
   },
   "devDependencies": {
-    "esbuild": "0.14.42"
+    "esbuild": "0.14.42",
+    "jest": "28.1.1"
   }
 }
