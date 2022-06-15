@@ -4,7 +4,7 @@
   "main": "dist/bundle.js",
   "types": "types/index.d.ts",
   "scripts": {
-    "build": "dotnet fable src && esbuild --platform=node --bundle --minify --outfile=dist/bundle.js src/entrypoint.js",
+    "build": "dotnet fable src/Frostleaf.Core && esbuild --platform=node --bundle --minify --outfile=dist/bundle.js src/entrypoint.js",
     "test": "dotnet fable test && jest"
   },
   "devDependencies": {

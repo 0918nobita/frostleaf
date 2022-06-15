@@ -1,1 +1,1 @@
-export { text, html, componentElement } from "./Library.fs.js";
+export { text, html, componentElement } from "./Frostleaf.Core/Library.fs.js";
