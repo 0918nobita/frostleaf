@@ -3,5 +3,4 @@ bin
 dist
 obj
 TestResults
-*.fs.cjs
 *.fs.js

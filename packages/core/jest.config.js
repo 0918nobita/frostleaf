@@ -1,3 +1,4 @@
 module.exports = {
-    testMatch: ["**/*.fs.cjs"],
+    testMatch: ["**/*.fs.js"],
+    testPathIgnorePatterns: ["/.fable/", "/src/"],
 };
